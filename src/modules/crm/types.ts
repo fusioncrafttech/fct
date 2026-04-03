@@ -10,39 +10,41 @@ export interface Client {
 }
 
 export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: 'todo' | 'in_progress' | 'review' | 'completed';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  assigned_to?: string;
-  due_date?: string;
-  project_id?: string;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description: string
+  assigned_member?: string
+  linked_project?: string
+  deadline?: string
+  priority?: "low" | "medium" | "high" | "urgent"
+  status?: "pending" | "working" | "review" | "done"
 }
+
+export type TaskStatus = Task['status']
+export type Priority = Task['priority']
 
 export interface ProjectTracker {
-  id: string;
-  title: string;
-  description: string;
-  status: 'planning' | 'in_progress' | 'testing' | 'completed' | 'on_hold';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  client_id?: string;
-  assigned_to?: string;
-  start_date?: string;
-  end_date?: string;
-  progress: number;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description: string
+  client?: string
+  assigned_members?: string[]
+  deadline?: string
+  progress?: number
+  priority?: "low" | "medium" | "high" | "urgent"
+  status?: "todo" | "in_progress" | "review" | "completed"
 }
 
+export type ProjectTrackerStatus = "todo" | "in_progress" | "review" | "completed"
+export type ProjectTrackerPriority = "low" | "medium" | "high" | "urgent"
+
 export interface TeamMember {
-  id: string;
-  name: string;
-  email: string;
-  role: 'super_admin' | 'admin' | 'team_member' | 'viewer';
-  avatar?: string;
-  joined_at: string;
-  is_active: boolean;
+  id: string
+  name: string
+  email: string
+  role: 'super_admin' | 'admin' | 'team_member' | 'viewer'
+  avatar?: string
+  joined_at: string
+  phone?: string
+  is_active?: boolean
 }

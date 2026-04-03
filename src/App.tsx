@@ -1,44 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import CRMLayout from './layouts/CRMLayout';
 import AuthLayout from './layouts/AuthLayout';
 import AuthGuard from './components/AuthGuard';
 import SplashScreen from './components/SplashScreen';
+import AppLoader from './components/AppLoader';
 
 // Portfolio Pages
-import HomePage from './modules/portfolio/pages/HomePage';
-import AboutPage from './modules/portfolio/pages/AboutPage';
-import ServicesPage from './modules/portfolio/pages/ServicesPage';
-import ProjectsPage from './modules/portfolio/pages/ProjectsPage';
-import ContactPage from './modules/portfolio/pages/ContactPage';
+const HomePage = lazy(() => import('./modules/portfolio/pages/HomePage'));
+const AboutPage = lazy(() => import('./modules/portfolio/pages/AboutPage'));
+const ServicesPage = lazy(() => import('./modules/portfolio/pages/ServicesPage'));
+const ProjectsPage = lazy(() => import('./modules/portfolio/pages/ProjectsPage'));
+const ContactPage = lazy(() => import('./modules/portfolio/pages/ContactPage'));
 
 // Auth Pages
-import LoginPage from './routes/auth/LoginPage';
-import RegisterPage from './routes/auth/RegisterPage';
-import ForgotPasswordPage from './routes/auth/ForgotPasswordPage';
+const LoginPage = lazy(() => import('./routes/auth/LoginPage'));
+const RegisterPage = lazy(() => import('./routes/auth/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('./routes/auth/ForgotPasswordPage'));
 
 // Admin Pages
-import AdminDashboard from './modules/admin/pages/Dashboard';
-import ServicesManager from './modules/admin/pages/Services';
-import ProjectsManager from './modules/admin/pages/Projects';
-import MessagesManager from './modules/admin/pages/Messages';
-import TestimonialsManager from './modules/admin/pages/TeamMembers';
-import AdminTeamMembersManager from './modules/admin/pages/TeamMembers';
-import AdminSettingsComponent from './modules/admin/pages/Settings';
-import AdminProfile from './modules/admin/pages/Profile';
+const AdminDashboard = lazy(() => import('./modules/admin/pages/Dashboard'));
+const ServicesManager = lazy(() => import('./modules/admin/pages/Services'));
+const ProjectsManager = lazy(() => import('./modules/admin/pages/Projects'));
+const MessagesManager = lazy(() => import('./modules/admin/pages/Messages'));
+const TestimonialsManager = lazy(() => import('./modules/admin/pages/Testimonials'));
+const AdminProfile = lazy(() => import('./modules/admin/pages/Profile'));
 
 // CRM Pages
-import CRMDashboard from './modules/crm/pages/Dashboard';
-import ProjectsTracker from './modules/crm/pages/Projects';
-import TasksManager from './modules/crm/pages/Tasks';
-import InternalMessages from './modules/crm/pages/InternalMessages';
-import TeamMembersManager from './modules/crm/pages/TeamMembers';
+const CRMDashboard = lazy(() => import('./modules/crm/pages/Dashboard'));
+const ProjectsTracker = lazy(() => import('./modules/crm/pages/Projects'));
+const TasksManager = lazy(() => import('./modules/crm/pages/Tasks'));
+const InternalMessages = lazy(() => import('./modules/crm/pages/InternalMessages'));
+const TeamMembersManager = lazy(() => import('./modules/crm/pages/TeamMembers'));
 
 // Toolkit Pages
-import ToolkitDashboard from './modules/toolkit/pages/Dashboard';
+const ToolkitDashboard = lazy(() => import('./modules/toolkit/pages/Dashboard'));
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -66,8 +65,6 @@ function App() {
   };
 
   const pageTransition = {
-    type: "tween",
-    ease: "anticipate",
     duration: 0.5
   };
 
@@ -77,14 +74,15 @@ function App() {
 
   return (
     <Router>
-      <motion.div
-        initial="initial"
-        animate="in"
-        exit="out"
-        variants={pageVariants}
-        transition={pageTransition}
-      >
-        <Routes>
+      <Suspense fallback={<AppLoader />}>
+        <motion.div
+          initial="initial"
+          animate="in"
+          exit="out"
+          variants={pageVariants}
+          transition={pageTransition}
+        >
+          <Routes>
           {/* Public Portfolio Routes */}
           <Route path="/" element={<MainLayout><Outlet /></MainLayout>}>
             <Route index element={<HomePage />} />
@@ -112,7 +110,7 @@ function App() {
             <Route path="messages" element={<MessagesManager />} />
             <Route path="testimonials" element={<TestimonialsManager />} />
             <Route path="team-members" element={<TeamMembersManager />} />
-            <Route path="settings" element={<AdminSettingsComponent />} />
+            {/* <Route path="settings" element={<AdminSettingsComponent />} /> */}
             <Route path="profile" element={<AdminProfile />} />
           </Route>
 
@@ -142,8 +140,9 @@ function App() {
 
           {/* 404 Route */}
           <Route path="*" element={<div className="min-h-screen flex items-center justify-center"><h1 className="text-4xl font-bold">404 - Page Not Found</h1></div>} />
-        </Routes>
-      </motion.div>
+          </Routes>
+        </motion.div>
+      </Suspense>
     </Router>
   );
 }

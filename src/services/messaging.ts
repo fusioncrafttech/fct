@@ -219,7 +219,9 @@ export const getUserMessages = async (userId: string, unreadOnly = false) => {
       recipient_id: item.recipient_id,
       is_read: item.is_read,
       read_at: item.read_at,
-      attachments: [] // Empty for now until attachments table is added
+      attachments: [], // Empty for now until attachments table is added
+      sender_name: item.profiles?.name || 'Unknown',
+      sender_avatar: item.profiles?.avatar_url || ''
     }));
   } catch (error) {
     console.error('Error fetching user messages:', error);

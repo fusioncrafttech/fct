@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Mail, MailOpen, Trash2, Reply, Search, Send, Users, User } from 'lucide-react';
+import { Mail, MailOpen, Trash2, Reply, Search, Send, Users } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Table, type TableColumn } from '../../../components/tables/Table';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
 import { messagesService } from '../services/supabase';
-import { sendInternalMessage, getTeamMembers, type InternalMessage } from '../../../services/messaging';
+import { sendInternalMessage, getTeamMembers } from '../../../services/messaging';
 import { getStoredUserProfile } from '../../../services/auth';
-import type { ContactMessage } from '../types';
+import type { ContactMessage } from '@/types/global';
 
 const MessagesManager: React.FC = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -95,8 +95,10 @@ const MessagesManager: React.FC = () => {
 
   const handleMarkAsRead = async (message: ContactMessage) => {
     try {
-      await messagesService.updateStatus(message.id, 'read');
-      fetchMessages();
+      if (message.id) {
+        await messagesService.updateStatus(message.id, 'read');
+        fetchMessages();
+      }
     } catch (error) {
       console.error('Failed to mark message as read:', error);
     }
@@ -104,8 +106,10 @@ const MessagesManager: React.FC = () => {
 
   const handleMarkAsReplied = async (message: ContactMessage) => {
     try {
-      await messagesService.updateStatus(message.id, 'replied');
-      fetchMessages();
+      if (message.id) {
+        await messagesService.updateStatus(message.id, 'replied');
+        fetchMessages();
+      }
     } catch (error) {
       console.error('Failed to mark message as replied:', error);
     }
@@ -114,8 +118,10 @@ const MessagesManager: React.FC = () => {
   const handleDelete = async (message: ContactMessage) => {
     if (confirm('Are you sure you want to delete this message?')) {
       try {
-        await messagesService.delete(message.id);
-        fetchMessages();
+        if (message.id) {
+          await messagesService.delete(message.id);
+          fetchMessages();
+        }
       } catch (error) {
         console.error('Failed to delete message:', error);
       }
@@ -132,9 +138,9 @@ const MessagesManager: React.FC = () => {
 
   const filteredMessages = messages.filter(message => {
     const matchesSearch = 
-      message.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.message.toLowerCase().includes(searchTerm.toLowerCase());
+      (message.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (message.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (message.message?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
     
     const matchesStatus = statusFilter === 'all' || message.status === statusFilter;
     
@@ -373,7 +379,7 @@ const MessagesManager: React.FC = () => {
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(selectedMessage.status)}`}
               >
                 {getStatusIcon(selectedMessage.status)}
-                <span className="ml-1">{selectedMessage.status.charAt(0).toUpperCase() + selectedMessage.status.slice(1)}</span>
+                <span className="ml-1">{selectedMessage.status ? selectedMessage.status.charAt(0).toUpperCase() + selectedMessage.status.slice(1) : 'Unknown'}</span>
               </span>
             </div>
             <div>
@@ -383,7 +389,7 @@ const MessagesManager: React.FC = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Received</label>
               <p className="text-gray-600">
-                {new Date(selectedMessage.created_at).toLocaleString()}
+                {selectedMessage.created_at ? new Date(selectedMessage.created_at).toLocaleString() : 'No date'}
               </p>
             </div>
             <div className="flex justify-end space-x-3 pt-4 border-t">

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Globe, Mail, Moon, Sun, Layout } from 'lucide-react';
+import { Save, Globe } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/forms/Input';
-import { Textarea } from '../../../components/forms/Textarea';
-import type { AdminSettings } from '../types';
+import type { AdminSettings } from '@/types/global';
 
-const AdminSettings: React.FC = () => {
+const Settings: React.FC = () => {
   const [settings, setSettings] = useState<AdminSettings>({
-    site_name: 'Fusioncrafttech',
-    site_description: 'Premium web development and digital solutions',
-    contact_email: 'contact@fusioncrafttech.com',
+    theme: 'light',
+    email_notifications: true,
+    push_notifications: true,
+    two_factor_auth: false,
     social_links: {
-      github: 'https://github.com/fusioncrafttech',
-      linkedin: 'https://linkedin.com/company/fusioncrafttech',
-      twitter: 'https://twitter.com/fusioncrafttech'
+      github: '',
+      linkedin: '',
+      twitter: ''
     }
   });
   const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ const AdminSettings: React.FC = () => {
     }
   }, [compactView]);
 
-  // Load settings from localStorage on mount
+  // Load settings from localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedSettings = localStorage.getItem('admin_settings');
@@ -74,7 +74,6 @@ const AdminSettings: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
     try {
       // Save settings to Supabase or localStorage for now
       localStorage.setItem('admin_settings', JSON.stringify(settings));
@@ -87,13 +86,34 @@ const AdminSettings: React.FC = () => {
     }
   };
 
-  const handleSocialLinkChange = (platform: keyof typeof settings.social_links, value: string) => {
-    setSettings(prev => ({
+  const handleSocialLinkChange = (platform: 'github' | 'linkedin' | 'twitter', value: string) => {
+    setSettings((prev: AdminSettings) => ({
       ...prev,
       social_links: {
         ...prev.social_links,
         [platform]: value
       }
+    }));
+  };
+
+  const handleThemeChange = (theme: 'light' | 'dark') => {
+    setSettings((prev: AdminSettings) => ({
+      ...prev,
+      theme
+    }));
+  };
+
+  const handleNotificationChange = (type: 'email_notifications' | 'push_notifications', value: boolean) => {
+    setSettings((prev: AdminSettings) => ({
+      ...prev,
+      [type]: value
+    }));
+  };
+
+  const handleTwoFactorChange = (two_factor_auth: boolean) => {
+    setSettings((prev: AdminSettings) => ({
+      ...prev,
+      two_factor_auth
     }));
   };
 
@@ -114,29 +134,55 @@ const AdminSettings: React.FC = () => {
           </div>
           
           <div className="space-y-4">
-            <Input
-              label="Site Name"
-              value={settings.site_name}
-              onChange={(e) => setSettings({ ...settings, site_name: e.target.value })}
-              placeholder="Your site name"
-            />
+            <div className="flex items-center space-x-4">
+              <label className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                Theme
+              </label>
+              <select
+                value={settings.theme}
+                onChange={(e) => handleThemeChange(e.target.value as 'light' | 'dark')}
+                className="flex-1 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+            </div>
             
-            <Textarea
-              label="Site Description"
-              value={settings.site_description}
-              onChange={(e) => setSettings({ ...settings, site_description: e.target.value })}
-              placeholder="Brief description of your site"
-              rows={3}
-            />
+            <div className="flex items-center space-x-2">
+              <label className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                Email Notifications
+              </label>
+              <input
+                type="checkbox"
+                checked={settings.email_notifications}
+                onChange={(e) => handleNotificationChange('email_notifications', e.target.checked)}
+                className="rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+              />
+            </div>
             
-            <Input
-              label="Contact Email"
-              type="email"
-              value={settings.contact_email}
-              onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
-              placeholder="contact@example.com"
-              icon={<Mail className="w-4 h-4 text-gray-400" />}
-            />
+            <div className="flex items-center space-x-2">
+              <label className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                Push Notifications
+              </label>
+              <input
+                type="checkbox"
+                checked={settings.push_notifications}
+                onChange={(e) => handleNotificationChange('push_notifications', e.target.checked)}
+                className="rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <label className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                Two-Factor Authentication
+              </label>
+              <input
+                type="checkbox"
+                checked={settings.two_factor_auth}
+                onChange={(e) => handleTwoFactorChange(e.target.checked)}
+                className="rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+              />
+            </div>
           </div>
         </div>
 
@@ -150,21 +196,24 @@ const AdminSettings: React.FC = () => {
           <div className="space-y-4">
             <Input
               label="GitHub"
-              value={settings.social_links.github || ''}
+              type="url"
+              value={settings.social_links?.github || ''}
               onChange={(e) => handleSocialLinkChange('github', e.target.value)}
               placeholder="https://github.com/username"
             />
             
             <Input
               label="LinkedIn"
-              value={settings.social_links.linkedin || ''}
+              type="url"
+              value={settings.social_links?.linkedin || ''}
               onChange={(e) => handleSocialLinkChange('linkedin', e.target.value)}
               placeholder="https://linkedin.com/in/username"
             />
             
             <Input
               label="Twitter"
-              value={settings.social_links.twitter || ''}
+              type="url"
+              value={settings.social_links?.twitter || ''}
               onChange={(e) => handleSocialLinkChange('twitter', e.target.value)}
               placeholder="https://twitter.com/username"
             />
@@ -232,4 +281,4 @@ const AdminSettings: React.FC = () => {
   );
 };
 
-export default AdminSettings;
+export default Settings;

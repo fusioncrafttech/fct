@@ -1,15 +1,12 @@
 export interface ToolkitItem {
-  id: string;
-  title: string;
-  description: string;
-  category: 'auth' | 'dashboard' | 'contact' | 'api' | 'ui' | 'other';
-  type: 'component' | 'template' | 'utility' | 'service';
-  code?: string;
-  preview?: string;
-  documentation?: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description?: string
+  category?: string
+  tags?: string[]
+  code_snippet?: string
+  github_link?: string
+  created_at?: string
 }
 
 export interface ToolkitCategory {
@@ -22,8 +19,8 @@ export interface ToolkitCategory {
 }
 
 export interface ToolkitStats {
-  total_items: number;
-  categories: number;
-  active_items: number;
-  recent_additions: number;
+  total_items: number
+  active_items: number
+  categories: Record<string, number>
+  recent_additions: ToolkitItem[]
 }

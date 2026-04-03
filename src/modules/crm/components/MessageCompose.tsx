@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { X, Paperclip, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Send } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/forms/Input';
 import { sendInternalMessage, getTeamMembers, type TeamMember } from '../../../services/messaging';
@@ -33,7 +33,6 @@ const MessageCompose: React.FC<MessageComposeProps> = ({
   const [teamMembers, setTeamMembers] = useState<ExtendedTeamMember[]>([]);
   const [loadingMembers, setLoadingMembers] = useState(false);
   
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const currentUser = getStoredUserProfile();
 
   React.useEffect(() => {
@@ -63,14 +62,6 @@ const MessageCompose: React.FC<MessageComposeProps> = ({
     }
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    setAttachments(prev => [...prev, ...files]);
-  };
-
-  const removeAttachment = (index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,13 +116,6 @@ const MessageCompose: React.FC<MessageComposeProps> = ({
     }
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
 
   if (!isOpen) return null;
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, Send } from 'lucide-react';
 import { sendContactEmail } from '../../../services/emailjs';
 
 const ContactPage: React.FC = () => {

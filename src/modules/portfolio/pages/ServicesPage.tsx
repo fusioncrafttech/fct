@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Code, Smartphone, Palette, Cloud, Cpu, Database, Shield, Globe, ArrowRight, CheckCircle } from 'lucide-react';
+import { Code, Smartphone, Palette, Cloud, Cpu, Database, ArrowRight, CheckCircle } from 'lucide-react';
 
 const ServicesPage: React.FC = () => {
   const services = [

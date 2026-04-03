@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Mail, MailOpen, Search, Bell, User, Reply, Forward, Send, Paperclip } from 'lucide-react';
+import { Mail, MailOpen, Search, Bell, User, Reply, Forward, Send } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/forms/Input';
-import { getUserMessages, markMessageAsRead, getMessageStats, getAttachmentUrl } from '../../../services/messaging';
+import { getUserMessages, markMessageAsRead, getMessageStats } from '../../../services/messaging';
 import { getStoredUserProfile } from '../../../services/auth';
 import MessageCompose from '../components/MessageCompose';
 
@@ -102,13 +102,6 @@ const InternalMessages: React.FC = () => {
     fetchStats();
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {

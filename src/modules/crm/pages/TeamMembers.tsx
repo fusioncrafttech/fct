@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { 
   Users, 
-  Plus, 
   Edit, 
   Trash2, 
   Mail, 
@@ -13,8 +11,6 @@ import {
   User,
   UserPlus,
   Search,
-  Filter,
-  MoreVertical,
   ToggleLeft,
   ToggleRight
 } from 'lucide-react';
@@ -22,10 +18,9 @@ import { Button } from '../../../components/ui/Button';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { teamMembersService } from '../services/supabase';
-import type { TeamMember } from '../types';
+import type { TeamMember } from '@/types/global';
 
 const TeamMembersManager: React.FC = () => {
-  const navigate = useNavigate();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,8 +57,8 @@ const TeamMembersManager: React.FC = () => {
 
   useEffect(() => {
     const filtered = teamMembers.filter(member => {
-      const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           member.email.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = (member.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+                           (member.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
       const matchesStatus = showInactive ? true : member.is_active;
       return matchesSearch && matchesStatus;
     });
@@ -89,7 +84,7 @@ const TeamMembersManager: React.FC = () => {
         is_active: true // New members are active by default
       };
       
-      if (editingMember) {
+      if (editingMember?.id) {
         await teamMembersService.update(editingMember.id, memberData);
       } else {
         await teamMembersService.create(memberData);
@@ -105,9 +100,9 @@ const TeamMembersManager: React.FC = () => {
   const handleEdit = (member: TeamMember) => {
     setEditingMember(member);
     setFormData({
-      name: member.name,
-      email: member.email,
-      role: member.role,
+      name: member.name || '',
+      email: member.email || '',
+      role: member.role || 'team_member',
       phone: member.phone || '',
       avatar: member.avatar || ''
     });
@@ -117,8 +112,10 @@ const TeamMembersManager: React.FC = () => {
   const handleDelete = async (member: TeamMember) => {
     if (confirm(`Are you sure you want to remove ${member.name} from the team?`)) {
       try {
-        await teamMembersService.delete(member.id);
-        fetchTeamMembers();
+        if (member.id) {
+          await teamMembersService.delete(member.id);
+          fetchTeamMembers();
+        }
       } catch (error) {
         console.error('Failed to delete team member:', error);
       }
@@ -127,8 +124,10 @@ const TeamMembersManager: React.FC = () => {
 
   const handleToggleActive = async (member: TeamMember) => {
     try {
-      await teamMembersService.toggleActive(member.id, !member.is_active);
-      fetchTeamMembers();
+      if (member.id) {
+        await teamMembersService.toggleActive(member.id, !member.is_active);
+        fetchTeamMembers();
+      }
     } catch (error) {
       console.error('Failed to toggle team member status:', error);
     }
@@ -264,6 +263,7 @@ const TeamMembersManager: React.FC = () => {
             </div>
             <div className="text-xl sm:text-2xl font-bold text-orange-600">
               {teamMembers.filter(m => {
+                if (!m.joined_at) return false;
                 const joinedDate = new Date(m.joined_at);
                 const thirtyDaysAgo = new Date();
                 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -351,9 +351,9 @@ const TeamMembersManager: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2 space-y-2 sm:space-y-0">
                       <h4 className="text-base sm:text-lg font-medium text-gray-900 truncate">{member.name}</h4>
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border flex-shrink-0 ${getRoleColor(member.role)}`}>
-                        {getRoleIcon(member.role)}
-                        <span className="ml-1">{member.role.replace('_', ' ')}</span>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border flex-shrink-0 ${getRoleColor(member.role || 'team_member')}`}>
+                        {getRoleIcon(member.role || 'team_member')}
+                        <span className="ml-1">{(member.role || 'team_member').replace('_', ' ')}</span>
                       </span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
@@ -369,7 +369,7 @@ const TeamMembersManager: React.FC = () => {
                       )}
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                        <span className="whitespace-nowrap">Joined {new Date(member.joined_at).toLocaleDateString()}</span>
+                        <span className="whitespace-nowrap">Joined {member.joined_at ? new Date(member.joined_at).toLocaleDateString() : 'No date'}</span>
                       </div>
                     </div>
                   </div>

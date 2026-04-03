@@ -5,7 +5,7 @@ import { Table, type TableColumn } from '../../../components/tables/Table';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { tasksService, projectsTrackerService } from '../services/supabase';
-import type { Task, TaskStatus, Priority } from '../types';
+import type { Task, TaskStatus, Priority } from '@/types/global';
 
 const TasksManager: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,24 +15,34 @@ const TasksManager: React.FC = () => {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [formData, setFormData] = useState({
     title: '',
+    description: '',
     assigned_member: '',
     deadline: '',
     priority: 'medium' as Priority,
     linked_project: '',
     status: 'pending' as TaskStatus
+  } as {
+    title: string;
+    description: string;
+    assigned_member: string;
+    deadline: string;
+    priority: Priority;
+    linked_project: string;
+    status: TaskStatus;
   });
 
-  const statusColors = {
+  const statusColors: Record<string, string> = {
     pending: 'bg-gray-100 text-gray-800',
     working: 'bg-blue-100 text-blue-800',
     review: 'bg-purple-100 text-purple-800',
     done: 'bg-green-100 text-green-800'
   };
 
-  const priorityColors = {
+  const priorityColors: Record<string, string> = {
     high: 'bg-red-100 text-red-800',
     medium: 'bg-yellow-100 text-yellow-800',
-    low: 'bg-green-100 text-green-800'
+    low: 'bg-green-100 text-green-800',
+    urgent: 'bg-red-200 text-red-900'
   };
 
   useEffect(() => {
@@ -60,6 +70,7 @@ const TasksManager: React.FC = () => {
       // Prepare form data, handling empty UUID fields
       const taskData = {
         title: formData.title,
+        description: formData.description,
         assigned_member: formData.assigned_member || undefined,
         deadline: formData.deadline,
         priority: formData.priority,
@@ -67,7 +78,7 @@ const TasksManager: React.FC = () => {
         status: formData.status
       };
 
-      if (editingTask) {
+      if (editingTask?.id) {
         await tasksService.update(editingTask.id, taskData);
       } else {
         await tasksService.create(taskData);
@@ -84,11 +95,12 @@ const TasksManager: React.FC = () => {
     setEditingTask(task);
     setFormData({
       title: task.title,
+      description: task.description || '',
       assigned_member: task.assigned_member || '',
-      deadline: task.deadline,
-      priority: task.priority,
+      deadline: task.deadline || '',
+      priority: task.priority || 'medium',
       linked_project: task.linked_project || '',
-      status: task.status
+      status: task.status || 'pending'
     });
     setModalOpen(true);
   };
@@ -96,8 +108,10 @@ const TasksManager: React.FC = () => {
   const handleDelete = async (task: Task) => {
     if (confirm('Are you sure you want to delete this task?')) {
       try {
-        await tasksService.delete(task.id);
-        fetchData();
+        if (task.id) {
+          await tasksService.delete(task.id);
+          fetchData();
+        }
       } catch (error) {
         console.error('Failed to delete task:', error);
       }
@@ -106,8 +120,10 @@ const TasksManager: React.FC = () => {
 
   const handleStatusChange = async (task: Task, newStatus: TaskStatus) => {
     try {
-      await tasksService.updateStatus(task.id, newStatus);
-      fetchData();
+      if (task.id) {
+        await tasksService.updateStatus(task.id, newStatus);
+        fetchData();
+      }
     } catch (error) {
       console.error('Failed to update task status:', error);
     }
@@ -116,6 +132,7 @@ const TasksManager: React.FC = () => {
   const resetForm = () => {
     setFormData({
       title: '',
+      description: '',
       assigned_member: '',
       deadline: '',
       priority: 'medium',
@@ -164,7 +181,7 @@ const TasksManager: React.FC = () => {
       title: 'Priority',
       render: (value: Priority) => (
         <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityColors[value]}`}
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityColors[value || 'medium']}`}
         >
           {value}
         </span>
@@ -177,7 +194,7 @@ const TasksManager: React.FC = () => {
         <select
           value={value}
           onChange={(e) => handleStatusChange(item, e.target.value as TaskStatus)}
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border-0 ${statusColors[value]} cursor-pointer`}
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border-0 ${statusColors[value || 'pending']} cursor-pointer`}
         >
           <option value="pending">Pending</option>
           <option value="working">Working</option>

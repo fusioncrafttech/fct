@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit, Trash2, Star, ExternalLink, Code } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
-import { Table, type TableColumn } from '../../../components/tables/Table';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
 import ImageUpload from '../../../components/ImageUpload';
 import { projectsService } from '../services/supabase';
-import type { Project } from '../types';
+import type { Project } from '@/types/global';
 
 const ProjectsManager: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -51,7 +50,7 @@ const ProjectsManager: React.FC = () => {
         tech_stack: formData.tech_stack.split(',').map(tech => tech.trim()).filter(tech => tech)
       };
 
-      if (editingProject) {
+      if (editingProject?.id) {
         await projectsService.update(editingProject.id, projectData);
       } else {
         await projectsService.create(projectData);
@@ -69,11 +68,11 @@ const ProjectsManager: React.FC = () => {
     setFormData({
       title: project.title,
       description: project.description,
-      image: project.image,
-      tech_stack: project.tech_stack.join(', '),
-      github_url: project.github_url,
-      live_url: project.live_url,
-      featured: project.featured
+      image: project.image || '',
+      tech_stack: project.tech_stack?.join(', ') || '',
+      github_url: project.github_url || '',
+      live_url: project.live_url || '',
+      featured: project.featured || false
     });
     setModalOpen(true);
   };
@@ -81,20 +80,13 @@ const ProjectsManager: React.FC = () => {
   const handleDelete = async (project: Project) => {
     if (confirm('Are you sure you want to delete this project?')) {
       try {
-        await projectsService.delete(project.id);
-        fetchProjects();
+        if (project.id) {
+          await projectsService.delete(project.id);
+          fetchProjects();
+        }
       } catch (error) {
         console.error('Failed to delete project:', error);
       }
-    }
-  };
-
-  const handleToggleFeatured = async (project: Project) => {
-    try {
-      await projectsService.toggleFeatured(project.id, !project.featured);
-      fetchProjects();
-    } catch (error) {
-      console.error('Failed to toggle featured status:', error);
     }
   };
 
@@ -110,92 +102,6 @@ const ProjectsManager: React.FC = () => {
     });
     setEditingProject(null);
   };
-
-  const columns: TableColumn<Project>[] = [
-    {
-      key: 'title',
-      title: 'Project Name',
-      render: (value) => (
-        <div className="font-medium text-gray-900">{value}</div>
-      )
-    },
-    {
-      key: 'description',
-      title: 'Description',
-      render: (value) => (
-        <div className="text-sm text-gray-600 line-clamp-2">{value}</div>
-      )
-    },
-    {
-      key: 'tech_stack',
-      title: 'Tech Stack',
-      render: (value) => (
-        <div className="flex flex-wrap gap-1">
-          {value.slice(0, 3).map((tech, index) => (
-            <span
-              key={index}
-              className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800"
-            >
-              {tech}
-            </span>
-          ))}
-          {value.length > 3 && (
-            <span className="text-xs text-gray-500">+{value.length - 3}</span>
-          )}
-        </div>
-      )
-    },
-    {
-      key: 'featured',
-      title: 'Featured',
-      render: (value) => (
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-            value
-              ? 'bg-yellow-100 text-yellow-800'
-              : 'bg-gray-100 text-gray-800'
-          }`}
-        >
-          {value ? 'Featured' : 'Regular'}
-        </span>
-      )
-    },
-    {
-      key: 'created_at',
-      title: 'Created',
-      render: (value) => (
-        <div className="text-sm text-gray-600">
-          {new Date(value).toLocaleDateString()}
-        </div>
-      )
-    },
-    {
-      key: 'actions',
-      title: 'Actions',
-      render: (_, item) => (
-        <div className="flex items-center space-x-2">
-          <Button
-            size="sm"
-            variant="ghost"
-            icon={<Edit className="w-4 h-4" />}
-            onClick={() => handleEdit(item)}
-          />
-          <Button
-            size="sm"
-            variant="ghost"
-            icon={<Star className={`w-4 h-4 ${item.featured ? 'text-yellow-500' : ''}`} />}
-            onClick={() => handleToggleFeatured(item)}
-          />
-          <Button
-            size="sm"
-            variant="danger"
-            icon={<Trash2 className="w-4 h-4" />}
-            onClick={() => handleDelete(item)}
-          />
-        </div>
-      )
-    }
-  ];
 
   return (
     <div className="space-y-6">
@@ -268,7 +174,7 @@ const ProjectsManager: React.FC = () => {
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">{project.description}</p>
                 <div className="flex flex-wrap gap-1 mb-4">
-                  {project.tech_stack.slice(0, 3).map((tech, index) => (
+                  {(project.tech_stack || []).slice(0, 3).map((tech: string, index: number) => (
                     <span
                       key={index}
                       className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"

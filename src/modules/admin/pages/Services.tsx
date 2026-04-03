@@ -6,7 +6,7 @@ import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
 import { servicesService } from '../services/supabase';
-import type { Service } from '../types';
+import type { Service } from '@/types/global';
 
 const ServicesManager: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -17,8 +17,14 @@ const ServicesManager: React.FC = () => {
     title: '',
     description: '',
     icon: '',
-    price: 0,
+    price: '',
     is_active: true
+  } as {
+    title: string;
+    description: string;
+    icon: string;
+    price: string;
+    is_active: boolean;
   });
 
   useEffect(() => {
@@ -39,7 +45,7 @@ const ServicesManager: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (editingService) {
+      if (editingService?.id) {
         await servicesService.update(editingService.id, formData);
       } else {
         await servicesService.create(formData);
@@ -55,11 +61,11 @@ const ServicesManager: React.FC = () => {
   const handleEdit = (service: Service) => {
     setEditingService(service);
     setFormData({
-      title: service.title,
-      description: service.description,
-      icon: service.icon,
-      price: service.price,
-      is_active: service.is_active
+      title: service.title || '',
+      description: service.description || '',
+      icon: service.icon || '',
+      price: service.price || '',
+      is_active: service.is_active || true
     });
     setModalOpen(true);
   };
@@ -67,8 +73,10 @@ const ServicesManager: React.FC = () => {
   const handleDelete = async (service: Service) => {
     if (confirm('Are you sure you want to delete this service?')) {
       try {
-        await servicesService.delete(service.id);
-        fetchServices();
+        if (service.id) {
+          await servicesService.delete(service.id);
+          fetchServices();
+        }
       } catch (error) {
         console.error('Failed to delete service:', error);
       }
@@ -77,8 +85,10 @@ const ServicesManager: React.FC = () => {
 
   const handleToggleActive = async (service: Service) => {
     try {
-      await servicesService.toggleActive(service.id, !service.is_active);
-      fetchServices();
+      if (service.id) {
+        await servicesService.toggleActive(service.id, !(service.is_active ?? false));
+        fetchServices();
+      }
     } catch (error) {
       console.error('Failed to toggle service status:', error);
     }
@@ -89,7 +99,7 @@ const ServicesManager: React.FC = () => {
       title: '',
       description: '',
       icon: '',
-      price: 0,
+      price: '',
       is_active: true
     });
     setEditingService(null);
@@ -226,9 +236,9 @@ const ServicesManager: React.FC = () => {
           />
           <Input
             label="Price"
-            type="number"
+            type="text"
             value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
             required
             min="0"
             step="0.01"

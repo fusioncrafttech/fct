@@ -5,7 +5,6 @@ import {
   Users, 
   FolderOpen, 
   CheckSquare, 
-  TrendingUp,
   Clock,
   AlertCircle,
   ArrowUpRight,
@@ -15,9 +14,8 @@ import {
   Briefcase,
   Calendar
 } from 'lucide-react';
-import { StatCard } from '../../../components/widgets/StatCard';
 import { projectsTrackerService, tasksService, clientsService, teamMembersService } from '../services/supabase';
-import type { ProjectTracker, Task, Client, TeamMember } from '../types';
+import type { ProjectTracker, Task } from '@/types/global';
 
 const CRMDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +29,6 @@ const CRMDashboard: React.FC = () => {
   });
   const [recentProjects, setRecentProjects] = useState<ProjectTracker[]>([]);
   const [urgentTasks, setUrgentTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,8 +60,6 @@ const CRMDashboard: React.FC = () => {
         );
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -109,7 +104,7 @@ const CRMDashboard: React.FC = () => {
     }
   };
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority?: string) => {
     switch (priority) {
       case 'high':
         return 'bg-red-100 text-red-800 border-red-200';
@@ -122,7 +117,7 @@ const CRMDashboard: React.FC = () => {
     }
   };
 
-  const getTaskIcon = (status: string) => {
+  const getTaskIcon = (status?: string) => {
     switch (status) {
       case 'done':
         return <CheckSquare className="w-4 h-4 text-green-600" />;
@@ -349,15 +344,15 @@ const CRMDashboard: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => handleProjectClick(project.id)}
+                  onClick={() => project.id && handleProjectClick(project.id)}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer space-y-2 sm:space-y-0"
                 >
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(project.status)}`}>
-                        {project.status.replace('_', ' ')}
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(project.status || 'todo')}`}>
+                        {(project.status || 'todo').replace('_', ' ')}
                       </span>
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(project.priority)}`}>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(project.priority || 'medium')}`}>
                         {project.priority}
                       </span>
                     </div>
@@ -366,7 +361,7 @@ const CRMDashboard: React.FC = () => {
                   </div>
                   <div className="flex flex-col sm:flex-col sm:items-end space-y-1 sm:space-y-2">
                     <span className="text-xs text-gray-500">
-                      {new Date(project.created_at).toLocaleDateString()}
+                      {project.deadline && new Date(project.deadline).toLocaleDateString()}
                     </span>
                   </div>
                 </motion.div>
@@ -399,20 +394,20 @@ const CRMDashboard: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => handleTaskClick(task.id)}
+                  onClick={() => task.id && handleTaskClick(task.id)}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors cursor-pointer space-y-2 sm:space-y-0"
                 >
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                       {getTaskIcon(task.status)}
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(task.priority)}`}>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(task.priority || 'medium')}`}>
                         {task.priority}
                       </span>
                     </div>
                     <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{task.title}</h4>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <Clock className="w-3 h-3" />
-                      <span>{new Date(task.deadline).toLocaleDateString()}</span>
+                      {task.deadline && new Date(task.deadline).toLocaleDateString()}
                     </div>
                   </div>
                 </motion.div>

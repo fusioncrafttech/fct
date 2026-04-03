@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit, Trash2, Star } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
-import { Table, type TableColumn } from '../../../components/tables/Table';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
 import { testimonialsService } from '../services/supabase';
-import type { Testimonial } from '../types';
+import type { Testimonial } from '@/types/global';
 
 const TestimonialsManager: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
   const [formData, setFormData] = useState({
@@ -31,15 +29,13 @@ const TestimonialsManager: React.FC = () => {
       setTestimonials(data);
     } catch (error) {
       console.error('Failed to fetch testimonials:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (editingTestimonial) {
+      if (editingTestimonial?.id) {
         await testimonialsService.update(editingTestimonial.id, formData);
       } else {
         await testimonialsService.create(formData);
@@ -55,11 +51,11 @@ const TestimonialsManager: React.FC = () => {
   const handleEdit = (testimonial: Testimonial) => {
     setEditingTestimonial(testimonial);
     setFormData({
-      client_name: testimonial.client_name,
-      company_name: testimonial.company_name,
-      photo: testimonial.photo,
-      review_text: testimonial.review_text,
-      rating: testimonial.rating
+      client_name: testimonial.client_name || '',
+      company_name: testimonial.company_name || '',
+      photo: testimonial.photo || '',
+      review_text: testimonial.review_text || '',
+      rating: testimonial.rating || 0
     });
     setModalOpen(true);
   };
@@ -67,8 +63,10 @@ const TestimonialsManager: React.FC = () => {
   const handleDelete = async (testimonial: Testimonial) => {
     if (confirm('Are you sure you want to delete this testimonial?')) {
       try {
-        await testimonialsService.delete(testimonial.id);
-        fetchTestimonials();
+        if (testimonial.id) {
+          await testimonialsService.delete(testimonial.id);
+          fetchTestimonials();
+        }
       } catch (error) {
         console.error('Failed to delete testimonial:', error);
       }
@@ -101,82 +99,24 @@ const TestimonialsManager: React.FC = () => {
     );
   };
 
-  const columns: TableColumn<Testimonial>[] = [
-    {
-      key: 'client_name',
-      title: 'Client Name',
-      render: (value) => (
-        <div className="font-medium text-gray-900">{value}</div>
-      )
-    },
-    {
-      key: 'company_name',
-      title: 'Company',
-      render: (value) => (
-        <div className="text-sm text-gray-600">{value}</div>
-      )
-    },
-    {
-      key: 'rating',
-      title: 'Rating',
-      render: (value) => renderStars(value)
-    },
-    {
-      key: 'review_text',
-      title: 'Review',
-      render: (value) => (
-        <div className="text-sm text-gray-600 line-clamp-2">{value}</div>
-      )
-    },
-    {
-      key: 'created_at',
-      title: 'Created',
-      render: (value) => (
-        <div className="text-sm text-gray-600">
-          {new Date(value).toLocaleDateString()}
-        </div>
-      )
-    },
-    {
-      key: 'actions',
-      title: 'Actions',
-      render: (_, item) => (
-        <div className="flex items-center space-x-2">
-          <Button
-            size="sm"
-            variant="ghost"
-            icon={<Edit className="w-4 h-4" />}
-            onClick={() => handleEdit(item)}
-          />
-          <Button
-            size="sm"
-            variant="danger"
-            icon={<Trash2 className="w-4 h-4" />}
-            onClick={() => handleDelete(item)}
-          />
-        </div>
-      )
-    }
-  ];
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Testimonials Manager</h1>
-          <p className="text-gray-600 mt-2">Manage client testimonials</p>
-        </div>
-        <Button
-          icon={<Plus className="w-4 h-4" />}
-          onClick={() => {
-            resetForm();
-            setModalOpen(true);
-          }}
-        >
-          Add Testimonial
-        </Button>
-      </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Testimonials Manager</h1>
+              <p className="text-gray-600 mt-2">Manage client testimonials</p>
+            </div>
+            <Button
+              icon={<Plus className="w-4 h-4" />}
+              onClick={() => {
+                resetForm();
+                setModalOpen(true);
+              }}
+            >
+              Add Testimonial
+            </Button>
+          </div>
 
       {/* Testimonials Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -186,27 +126,27 @@ const TestimonialsManager: React.FC = () => {
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
           >
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
-                {testimonial.photo ? (
-                  <img
-                    src={testimonial.photo}
-                    alt={testimonial.client_name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                    <span className="text-gray-500 font-medium">
-                      {testimonial.client_name.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                )}
+                <div className="flex-shrink-0">
+                  {testimonial.photo ? (
+                    <img
+                      src={testimonial.photo}
+                      alt={testimonial.client_name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                      <span className="text-gray-500 font-medium">
+                        {testimonial.client_name?.charAt(0).toUpperCase() || 'T'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-semibold text-gray-900">{testimonial.client_name}</h3>
+                  <p className="text-sm text-gray-600">{testimonial.company_name || 'Client'}</p>
+                  <div className="mt-2">{renderStars(testimonial.rating || 0)}</div>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-semibold text-gray-900">{testimonial.client_name}</h3>
-                <p className="text-sm text-gray-600">{testimonial.company_name}</p>
-                <div className="mt-2">{renderStars(testimonial.rating)}</div>
-              </div>
-            </div>
             <blockquote className="mt-4 text-gray-700 italic">
               "{testimonial.review_text}"
             </blockquote>
@@ -246,7 +186,7 @@ const TestimonialsManager: React.FC = () => {
             label="Company Name"
             value={formData.company_name}
             onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-            required
+            placeholder="e.g. TechStart, DataFlow"
           />
           <Input
             label="Photo URL"

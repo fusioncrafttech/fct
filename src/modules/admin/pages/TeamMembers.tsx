@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Edit2, Trash2, User, Mail, Briefcase, MapPin, Star } from 'lucide-react';
+import { Plus, Edit2, Trash2, User, Mail, MapPin, Star } from 'lucide-react';
 import ImageUpload from '../../../components/ImageUpload';
 
 interface TeamMember {

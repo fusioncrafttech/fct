@@ -1,5 +1,5 @@
 import { supabase } from '../../../services/supabase';
-import type { ToolkitItem, ToolkitCategory, ToolkitStats } from '../types';
+import type { ToolkitItem, ToolkitStats } from '@/types/global';
 
 // Toolkit Items CRUD
 export const toolkitService = {
@@ -13,7 +13,7 @@ export const toolkitService = {
     return data;
   },
 
-  async getByCategory(category: ToolkitCategory): Promise<ToolkitItem[]> {
+  async getByCategory(category: string): Promise<ToolkitItem[]> {
     const { data, error } = await supabase
       .from('toolkit_items')
       .select('*')
@@ -62,7 +62,7 @@ export const toolkitService = {
       supabase.from('toolkit_items').select('category')
     ]);
 
-    const categories = categoriesData.data?.reduce((acc: Record<string, number>, item: any) => {
+    const categories = categoriesData.data?.reduce((acc: Record<string, number>, item: { category: string }) => {
       acc[item.category] = (acc[item.category] || 0) + 1;
       return acc;
     }, {} as Record<string, number>) || {} as Record<string, number>;
@@ -70,6 +70,7 @@ export const toolkitService = {
     return {
       total_items: allItems.data?.length || 0,
       categories,
+      active_items: allItems.data?.filter((item: { is_active: boolean }) => item.is_active).length || 0,
       recent_additions: (allItems.data || []).slice(0, 5)
     };
   }

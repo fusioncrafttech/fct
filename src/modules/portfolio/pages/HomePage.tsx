@@ -3,14 +3,17 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Code, Zap, Shield, Globe, Monitor, Smartphone, Palette, Cloud } from 'lucide-react';
 import { projectsService } from '../../admin/services/supabase';
-import type { Project } from '../../admin/types';
+import { testimonialsService } from '../../admin/services/supabase';
+import type { Project, Testimonial } from '@/types/global';
 
 const HomePage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonialsLoading, setTestimonialsLoading] = useState(true);
 
   useEffect(() => {
     fetchProjects();
+    fetchTestimonials();
   }, []);
 
   const fetchProjects = async () => {
@@ -21,8 +24,20 @@ const HomePage: React.FC = () => {
     } catch (error) {
       console.error('Failed to fetch projects:', error);
       setProjects([]);
+    }
+  };
+
+  const fetchTestimonials = async () => {
+    try {
+      setTestimonialsLoading(true);
+      const data = await testimonialsService.getAll();
+      // Get only the first 3 testimonials for the preview
+      setTestimonials((data || []).slice(0, 3));
+    } catch (error) {
+      console.error('Failed to fetch testimonials:', error);
+      setTestimonials([]);
     } finally {
-      setLoading(false);
+      setTestimonialsLoading(false);
     }
   };
   const features = [
@@ -75,27 +90,6 @@ const HomePage: React.FC = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      role: 'CEO at TechStart',
-      content: 'Fusioncrafttech delivered an exceptional product that exceeded our expectations. Their attention to detail and technical expertise is unmatched.',
-      rating: 5
-    },
-    {
-      name: 'Michael Chen',
-      role: 'CTO at DataFlow',
-      content: 'Working with Fusioncrafttech was a game-changer for our company. They helped us scale our infrastructure and improve performance significantly.',
-      rating: 5
-    },
-    {
-      name: 'Emily Rodriguez',
-      role: 'Product Manager at InnovateCo',
-      content: 'The team\'s professionalism and dedication to quality is impressive. They turned our vision into reality.',
-      rating: 5
-    }
-  ];
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -143,8 +137,8 @@ const HomePage: React.FC = () => {
           />
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -278,7 +272,7 @@ const HomePage: React.FC = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {features.map((feature, index) => (
               <motion.div
@@ -286,15 +280,15 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                className="glass-card text-center group"
+                className="glass-card p-6 text-center group hover:shadow-2xl transition-all duration-300"
               >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-8 h-8 text-white" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <feature.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-300 text-sm">
+                <p className="text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
@@ -329,24 +323,26 @@ const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card group cursor-pointer"
+                className="glass-card p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20"
               >
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  {React.createElement(service.icon, { className: "w-8 h-8 text-white" })}
+                <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                  {React.createElement(service.icon, { className: "w-10 h-10 text-white" })}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-gray-100 transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-gray-300 mb-4">
+                <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
                   {service.description}
                 </p>
-                <Link
-                  to="/services"
-                  className="text-white hover:text-gray-200 font-medium inline-flex items-center group"
-                >
-                  Learn more
-                  <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <div className="mt-auto">
+                  <Link
+                    to="/services"
+                    className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors"
+                  >
+                    Learn more
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -379,14 +375,14 @@ const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card overflow-hidden group cursor-pointer"
+                className="glass-card overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20"
               >
-                <div className="aspect-video bg-gray-800 rounded-t-2xl mb-4 overflow-hidden">
+                <div className="aspect-video bg-gray-800 overflow-hidden relative">
                   {project.image ? (
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = 'https://via.placeholder.com/400x225/1e293b/64748b?text=Project+Image';
@@ -399,30 +395,35 @@ const HomePage: React.FC = () => {
                       </span>
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech_stack?.map((tech: string, techIndex: number) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1 bg-white/10 text-gray-300 text-xs font-medium rounded-full border border-white/20"
+                <div className="p-6 flex flex-col h-full">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-300 mb-4 leading-relaxed flex-grow">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tech_stack?.map((tech: string, techIndex: number) => (
+                      <span
+                        key={techIndex}
+                        className="px-3 py-1 bg-white/10 text-gray-300 text-sm font-medium rounded-full border border-white/20 hover:bg-white/20 transition-colors"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-auto">
+                    <Link
+                      to="/projects"
+                      className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors"
                     >
-                      {tech}
-                    </span>
-                  ))}
+                      View project
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
-                <Link
-                  to="/projects"
-                  className="text-white hover:text-gray-200 font-medium inline-flex items-center group"
-                >
-                  View project
-                  <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
               </motion.div>
             ))}
           </div>
@@ -458,33 +459,87 @@ const HomePage: React.FC = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="glass-card"
-              >
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-300 mb-6 italic">
-                  "{testimonial.content}"
-                </p>
-                <div>
-                  <div className="font-semibold text-white">
-                    {testimonial.name}
+            {testimonialsLoading ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={`skeleton-${index}`}
+                  className="glass-card p-8 h-full flex flex-col animate-pulse"
+                >
+                  <div className="flex mb-6">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-6 h-6 bg-gray-600 rounded-full mr-1" />
+                    ))}
                   </div>
-                  <div className="text-gray-400 text-sm">
-                    {testimonial.role}
+                  <div className="flex-grow">
+                    <div className="h-20 bg-gray-600 rounded mb-8"></div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 bg-gray-600 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="h-6 bg-gray-600 rounded mb-2 w-3/4"></div>
+                        <div className="h-4 bg-gray-600 rounded w-1/2"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              ))
+            ) : testimonials.length > 0 ? (
+              testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="glass-card p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20 h-full flex flex-col"
+                >
+                  <div className="flex-grow">
+                    <div className="flex mb-6">
+                      {[...Array(testimonial.rating || 0)].map((_, i) => (
+                        <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-300 mb-8 italic text-lg leading-relaxed">
+                      "{testimonial.review_text}"
+                    </p>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        {testimonial.photo ? (
+                          <img
+                            src={testimonial.photo}
+                            alt={testimonial.client_name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement!.innerHTML = `<span class="text-white font-bold text-xl">${testimonial.client_name?.charAt(0) || 'C'}</span>`;
+                            }}
+                          />
+                        ) : (
+                          <span className="text-white font-bold text-xl">
+                            {testimonial.client_name?.charAt(0) || 'C'}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-bold text-white text-lg">
+                          {testimonial.client_name}
+                        </div>
+                        <div className="text-gray-400">
+                          {testimonial.company_name}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              // Empty state
+              <div className="col-span-3 text-center py-12">
+                <p className="text-gray-400 text-lg">No testimonials available yet.</p>
+                <p className="text-gray-500 mt-2">Client testimonials will appear here once they are added.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -504,7 +559,7 @@ const HomePage: React.FC = () => {
             <p className="text-xl text-gray-100 mb-8">
               Let's work together to bring your ideas to life. Get in touch with us today.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 to="/contact"
                 className="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-8 py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center shadow-lg"

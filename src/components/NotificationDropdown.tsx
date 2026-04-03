@@ -8,7 +8,6 @@ import {
   markAllNotificationsAsRead,
   deleteNotification,
   getNotificationIcon,
-  getNotificationColor,
   type Notification 
 } from '../services/notifications';
 

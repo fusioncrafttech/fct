@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, Users, EyeIcon } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { signUp } from '../../services/supabase';
 import { createNewUserProfile } from '../../services/auth';
 
@@ -18,7 +18,7 @@ const RegisterPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -48,7 +48,7 @@ const RegisterPage: React.FC = () => {
 
     try {
       // First create Supabase auth user
-      const { data, error: signUpError } = await signUp(formData.email, formData.password, formData.name);
+      const { error: signUpError } = await signUp(formData.email, formData.password, formData.name);
       
       if (signUpError) {
         setError(signUpError.message);

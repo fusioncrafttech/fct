@@ -6,14 +6,13 @@ import {
   Mail, 
   Zap, 
   Box,
-  Plus,
   ExternalLink,
   Search
 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/forms/Input';
 import { toolkitService } from '../services/supabase';
-import type { ToolkitItem, ToolkitCategory, ToolkitStats } from '../types';
+import type { ToolkitItem, ToolkitStats } from '@/types/global';
 
 const ToolkitDashboard: React.FC = () => {
   const [stats, setStats] = useState<ToolkitStats>({
@@ -25,14 +24,15 @@ const ToolkitDashboard: React.FC = () => {
       api_utilities: 0,
       ui_components: 0
     },
+    active_items: 0,
     recent_additions: []
   });
   const [items, setItems] = useState<ToolkitItem[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<ToolkitCategory | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const categories: { key: ToolkitCategory; title: string; icon: React.ReactNode; color: string }[] = [
+  const categories: { key: string; title: string; icon: React.ReactNode; color: string }[] = [
     { 
       key: 'authentication_templates', 
       title: 'Authentication Templates', 
@@ -98,8 +98,8 @@ const ToolkitDashboard: React.FC = () => {
 
   const filteredItems = items.filter(item =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (item.tags || []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const containerVariants = {
@@ -136,7 +136,7 @@ const ToolkitDashboard: React.FC = () => {
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
       >
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <motion.div
             key={category.key}
             variants={itemVariants}
@@ -218,7 +218,7 @@ const ToolkitDashboard: React.FC = () => {
             <p className="text-gray-600">No toolkit items found</p>
           </div>
         ) : (
-          filteredItems.map((item) => (
+          filteredItems.map((item: ToolkitItem) => (
             <motion.div
               key={item.id}
               variants={itemVariants}
@@ -237,7 +237,7 @@ const ToolkitDashboard: React.FC = () => {
                 <p className="text-gray-600 text-sm line-clamp-2">{item.description}</p>
                 
                 <div className="flex flex-wrap gap-1">
-                  {item.tags.slice(0, 3).map((tag, index) => (
+                  {(item.tags || []).slice(0, 3).map((tag: string, index: number) => (
                     <span
                       key={index}
                       className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
@@ -245,18 +245,18 @@ const ToolkitDashboard: React.FC = () => {
                       {tag}
                     </span>
                   ))}
-                  {item.tags.length > 3 && (
-                    <span className="text-xs text-gray-500">+{item.tags.length - 3}</span>
+                  {(item.tags || []).length > 3 && (
+                    <span className="text-xs text-gray-500">+{(item.tags || []).length - 3}</span>
                   )}
                 </div>
                 
                 <div className="bg-gray-50 rounded-lg p-3 font-mono text-xs text-gray-700 line-clamp-3">
-                  {item.code_snippet}
+                  {item.code_snippet || 'No code snippet available'}
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-500">
-                    {new Date(item.created_at).toLocaleDateString()}
+                    {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No date'}
                   </span>
                   <div className="flex space-x-2">
                     {item.github_link && (
@@ -292,7 +292,7 @@ const ToolkitDashboard: React.FC = () => {
         </div>
         <div className="p-6">
           <div className="space-y-4">
-            {stats.recent_additions.map((item, index) => (
+            {stats.recent_additions.map((item: ToolkitItem, index: number) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -306,7 +306,7 @@ const ToolkitDashboard: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-xs text-gray-500">
-                    {new Date(item.created_at).toLocaleDateString()}
+                    {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No date'}
                   </span>
                   <div className={`w-6 h-6 ${
                     categories.find(c => c.key === item.category)?.color || 'bg-gray-500'

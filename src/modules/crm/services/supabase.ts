@@ -1,5 +1,5 @@
 import { supabase } from '../../../services/supabase';
-import type { Client, Task, ProjectTracker, TeamMember } from '../types';
+import type { ProjectTracker, Task, Client, TeamMember } from '@/types/global';
 
 // Clients CRUD
 export const clientsService = {

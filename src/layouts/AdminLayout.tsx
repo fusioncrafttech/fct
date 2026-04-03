@@ -11,10 +11,10 @@ import {
   X, 
   LogOut,
   User,
-  Bell,
   Moon,
   Sun,
-  Settings
+  Settings,
+  Quote
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { getStoredUserProfile, signOut, type UserProfile } from '../services/auth';

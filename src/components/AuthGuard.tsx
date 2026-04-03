@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getStoredUserProfile, getCurrentUserWithProfile } from '../services/auth';
+import { getStoredUserProfile } from '../services/auth';
 
 interface AuthGuardProps {
   children: React.ReactNode;

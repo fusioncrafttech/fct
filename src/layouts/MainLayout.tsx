@@ -11,19 +11,17 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check if dark mode is already set in localStorage or system preference
-    if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('darkMode');
-      if (savedMode !== null) {
-        return savedMode === 'true';
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return false;
-  });
+  const [darkMode, setDarkMode] = useState(false);
 
-  // Apply dark mode to document whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedDarkMode = localStorage.getItem('darkMode');
+      if (storedDarkMode === 'true') {
+        setDarkMode(true);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (darkMode) {
@@ -35,10 +33,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       }
     }
   }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
@@ -262,7 +256,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           
           <div className="mt-12 pt-8 border-t border-white/10 text-center">
             <p className="text-gray-400">
-              © 2026 Fusioncrafttech. All rights reserved. Built with ❤️ and cutting-edge technology.
+              © 2026 Fusioncrafttech. All rights reserved. 
             </p>
           </div>
         </div>

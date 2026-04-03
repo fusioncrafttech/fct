@@ -1,5 +1,5 @@
 import { supabase } from '../../../services/supabase';
-import type { Service, Project, ContactMessage, Testimonial, DashboardStats } from '../types';
+import type { Service, Project, ContactMessage, Testimonial, DashboardStats } from '@/types/global';
 
 // Services CRUD
 export const servicesService = {

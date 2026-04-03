@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ExternalLink, Code, ArrowRight } from 'lucide-react';
 import { projectsService } from '../../admin/services/supabase';
-import type { Project } from '../../admin/types';
+import type { Project } from '@/types/global';
 
 const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -113,7 +113,7 @@ const ProjectsPage: React.FC = () => {
                         {project.description}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tech_stack?.slice(0, 4).map((tech, techIndex) => (
+                        {project.tech_stack?.slice(0, 4).map((tech: string, techIndex: number) => (
                           <span
                             key={techIndex}
                             className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded"
@@ -121,9 +121,9 @@ const ProjectsPage: React.FC = () => {
                             {tech}
                           </span>
                         ))}
-                        {project.tech_stack?.length > 4 && (
+                        {project.tech_stack?.length && project.tech_stack.length > 4 && (
                           <span className="text-gray-500 text-xs">
-                            +{project.tech_stack.length - 4} more
+                            +{project.tech_stack ? project.tech_stack.length - 4 : 0} more
                           </span>
                         )}
                       </div>
@@ -238,7 +238,7 @@ const ProjectsPage: React.FC = () => {
                         {project.description}
                       </p>
                       <div className="flex flex-wrap gap-1 mb-4">
-                        {project.tech_stack?.slice(0, 3).map((tech, techIndex) => (
+                        {project.tech_stack?.slice(0, 3).map((tech: string, techIndex: number) => (
                           <span
                             key={techIndex}
                             className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded"
@@ -246,9 +246,9 @@ const ProjectsPage: React.FC = () => {
                             {tech}
                           </span>
                         ))}
-                        {project.tech_stack?.length > 3 && (
+                        {project.tech_stack?.length && project.tech_stack.length > 3 && (
                           <span className="text-gray-500 text-xs">
-                            +{project.tech_stack.length - 3}
+                            +{project.tech_stack ? project.tech_stack.length - 3 : 0}
                           </span>
                         )}
                       </div>

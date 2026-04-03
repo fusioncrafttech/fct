@@ -9,29 +9,30 @@ export interface User {
 }
 
 export interface Service {
-  id: string;
-  title: string;
-  description: string;
-  icon?: string;
-  image?: string;
-  featured: boolean;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description: string
+  price?: string
+  icon?: string
+  is_active?: boolean
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  image?: string;
-  screenshots?: string[];
-  tech_stack: string[];
-  featured: boolean;
-  client_name?: string;
-  project_url?: string;
-  github_url?: string;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description: string
+  image: string
+  github_url?: string
+  live_url?: string
+  tech_stack?: string[]
+  tech?: string[]
+  category?: string
+  project_url?: string
+  featured?: boolean
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Contact {
@@ -59,39 +60,66 @@ export interface Client {
 }
 
 export interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  assigned_to?: string;
-  project_id?: string;
-  status: 'todo' | 'in_progress' | 'review' | 'completed';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  due_date?: string;
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description: string
+  assigned_member?: string
+  linked_project?: string
+  deadline?: string
+  priority?: "low" | "medium" | "high" | "urgent"
+  status?: "pending" | "working" | "review" | "done"
 }
 
 export interface TeamMember {
-  id: string;
-  user_id: string;
-  role: string;
-  department?: string;
-  joined_at: string;
-  created_at: string;
-  updated_at: string;
+  id: string
+  user_id: string
+  role: string
+  department?: string
+  joined_at: string
+  phone?: string
+  created_at: string
+  updated_at: string
 }
 
 export interface ToolkitItem {
-  id: string;
-  title: string;
-  description: string;
-  category: 'auth' | 'dashboard' | 'contact' | 'api' | 'ui' | 'other';
-  code_snippet?: string;
-  github_url?: string;
-  demo_url?: string;
-  tags: string[];
-  created_at: string;
-  updated_at: string;
+  id: string
+  title: string
+  description?: string
+  category?: string
+  tags?: string[]
+  code_snippet?: string
+  github_link?: string
+}
+
+export interface Testimonial {
+  id: string
+  name: string
+  role?: string
+  company_name?: string
+  photo?: string
+  content?: string
+  review_text?: string
+  rating?: number
+  is_active?: boolean
+}
+
+export interface ProjectTracker {
+  id: string
+  title: string
+  description: string
+  client?: string
+  assigned_members?: string[]
+  deadline?: string
+  progress?: number
+  priority?: "low" | "medium" | "high" | "urgent"
+  status?: "todo" | "in_progress" | "review" | "completed"
+}
+
+export interface ToolkitStats {
+  total_items: number
+  active_items: number
+  categories: number
+  recent_additions: number
 }
 
 export interface AuthState {

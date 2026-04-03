@@ -10,8 +10,8 @@ import {
   DollarSign
 } from 'lucide-react';
 import { StatCard } from '../../../components/widgets/StatCard';
+import type { DashboardStats } from '@/types/global';
 import { dashboardService } from '../services/supabase';
-import type { DashboardStats } from '../types';
 
 const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
@@ -73,28 +73,28 @@ const AdminDashboard: React.FC = () => {
       >
         <StatCard
           title="Total Services"
-          value={stats.total_services}
+          value={stats.total_services || 0}
           change={{ value: 12, type: 'increase' }}
           icon={<Box className="w-6 h-6 text-blue-600" />}
           loading={loading}
         />
         <StatCard
           title="Total Projects"
-          value={stats.total_projects}
+          value={stats.total_projects || 0}
           change={{ value: 8, type: 'increase' }}
           icon={<Folder className="w-6 h-6 text-purple-600" />}
           loading={loading}
         />
         <StatCard
           title="New Messages"
-          value={stats.new_messages}
+          value={stats.new_messages || 0}
           change={{ value: 3, type: 'increase' }}
           icon={<MessageSquare className="w-6 h-6 text-green-600" />}
           loading={loading}
         />
         <StatCard
           title="Team Members"
-          value={stats.team_members}
+          value={stats.team_members || 0}
           change={{ value: 0, type: 'increase' }}
           icon={<Users className="w-6 h-6 text-orange-600" />}
           loading={loading}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
-import { signInWithRole, storeUserProfile, type UserProfile } from '../../services/auth';
+import { signInWithRole, storeUserProfile } from '../../services/auth';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
 import { projectsTrackerService } from '../services/supabase';
-import type { ProjectTracker, ProjectStatus, Priority } from '../types';
+import type { ProjectTracker, ProjectTrackerStatus, ProjectTrackerPriority } from '@/types/global';
 
 const ProjectsTracker: React.FC = () => {
   const [projects, setProjects] = useState<ProjectTracker[]>([]);
@@ -15,24 +15,26 @@ const ProjectsTracker: React.FC = () => {
   const [editingProject, setEditingProject] = useState<ProjectTracker | null>(null);
   const [formData, setFormData] = useState({
     title: '',
+    description: '',
     client: '',
     assigned_members: [] as string[],
     deadline: '',
-    priority: 'medium' as Priority,
-    status: 'planning' as ProjectStatus
+    priority: 'medium' as ProjectTrackerPriority,
+    status: 'todo' as ProjectTrackerStatus
   });
 
-  const statusColumns: { status: ProjectStatus; title: string; color: string }[] = [
-    { status: 'planning', title: 'Planning', color: 'bg-gray-100' },
+  const statusColumns: { status: ProjectTrackerStatus; title: string; color: string }[] = [
+    { status: 'todo', title: 'To Do', color: 'bg-gray-100' },
     { status: 'in_progress', title: 'In Progress', color: 'bg-blue-100' },
-    { status: 'testing', title: 'Testing', color: 'bg-yellow-100' },
+    { status: 'review', title: 'Review', color: 'bg-yellow-100' },
     { status: 'completed', title: 'Completed', color: 'bg-green-100' }
   ];
 
-  const priorityColors = {
+  const priorityColors: Record<string, string> = {
     high: 'bg-red-100 text-red-800',
     medium: 'bg-yellow-100 text-yellow-800',
-    low: 'bg-green-100 text-green-800'
+    low: 'bg-green-100 text-green-800',
+    urgent: 'bg-red-200 text-red-900'
   };
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const ProjectsTracker: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (editingProject) {
+      if (editingProject?.id) {
         await projectsTrackerService.update(editingProject.id, formData);
       } else {
         await projectsTrackerService.create(formData);
@@ -70,11 +72,12 @@ const ProjectsTracker: React.FC = () => {
     setEditingProject(project);
     setFormData({
       title: project.title,
-      client: project.client,
-      assigned_members: project.assigned_members,
-      deadline: project.deadline,
-      priority: project.priority,
-      status: project.status
+      description: project.description || '',
+      client: project.client || '',
+      assigned_members: project.assigned_members || [],
+      deadline: project.deadline || '',
+      priority: project.priority || 'medium',
+      status: project.status || 'todo'
     });
     setModalOpen(true);
   };
@@ -82,18 +85,22 @@ const ProjectsTracker: React.FC = () => {
   const handleDelete = async (project: ProjectTracker) => {
     if (confirm('Are you sure you want to delete this project?')) {
       try {
-        await projectsTrackerService.delete(project.id);
-        fetchProjects();
+        if (project.id) {
+          await projectsTrackerService.delete(project.id);
+          fetchProjects();
+        }
       } catch (error) {
         console.error('Failed to delete project:', error);
       }
     }
   };
 
-  const handleStatusChange = async (project: ProjectTracker, newStatus: ProjectStatus) => {
+  const handleStatusChange = async (project: ProjectTracker, newStatus: ProjectTrackerStatus) => {
     try {
-      await projectsTrackerService.updateStatus(project.id, newStatus);
-      fetchProjects();
+      if (project.id) {
+        await projectsTrackerService.updateStatus(project.id, newStatus);
+        fetchProjects();
+      }
     } catch (error) {
       console.error('Failed to update project status:', error);
     }
@@ -102,16 +109,17 @@ const ProjectsTracker: React.FC = () => {
   const resetForm = () => {
     setFormData({
       title: '',
+      description: '',
       client: '',
       assigned_members: [],
       deadline: '',
       priority: 'medium',
-      status: 'planning'
+      status: 'todo'
     });
     setEditingProject(null);
   };
 
-  const getProjectsByStatus = (status: ProjectStatus) => {
+  const getProjectsByStatus = (status: ProjectTrackerStatus) => {
     return projects.filter(project => project.status === status);
   };
 
@@ -213,29 +221,29 @@ const ProjectsTracker: React.FC = () => {
                     
                     <div className="flex items-center justify-between">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${priorityColors[project.priority]}`}
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${priorityColors[project.priority || 'medium']}`}
                       >
                         {project.priority}
                       </span>
                       
                       <div className="flex items-center space-x-1 text-xs text-gray-500">
                         <Calendar className="w-3 h-3" />
-                        <span className={isOverdue(project.deadline) ? 'text-red-600 font-medium' : ''}>
-                          {new Date(project.deadline).toLocaleDateString()}
+                        <span className={isOverdue(project.deadline || '') ? 'text-red-600 font-medium' : ''}>
+                          {project.deadline && new Date(project.deadline).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
                     
-                    {project.assigned_members.length > 0 && (
+                    {(project.assigned_members || []).length > 0 && (
                       <div className="flex items-center space-x-1">
                         <User className="w-3 h-3 text-gray-400" />
                         <span className="text-xs text-gray-600">
-                          {project.assigned_members.length} member{project.assigned_members.length > 1 ? 's' : ''}
+                          {(project.assigned_members || []).length} member{(project.assigned_members || []).length > 1 ? 's' : ''}
                         </span>
                       </div>
                     )}
                     
-                    {isOverdue(project.deadline) && project.status !== 'completed' && (
+                    {isOverdue(project.deadline || '') && project.status !== 'completed' && (
                       <div className="flex items-center space-x-1 text-red-600">
                         <AlertCircle className="w-3 h-3" />
                         <span className="text-xs font-medium">Overdue</span>
@@ -274,7 +282,7 @@ const ProjectsTracker: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
               <select
                 value={formData.priority}
-                onChange={(e) => setFormData({ ...formData, priority: e.target.value as Priority })}
+                onChange={(e) => setFormData({ ...formData, priority: e.target.value as ProjectTrackerPriority })}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="low">Low</option>
@@ -286,7 +294,7 @@ const ProjectsTracker: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectStatus })}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectTrackerStatus })}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="planning">Planning</option>
