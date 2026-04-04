@@ -106,6 +106,8 @@ CREATE TABLE team_members (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     role team_role_enum DEFAULT 'team_member',
+    designation VARCHAR(255),
+    description TEXT,
     avatar TEXT,
     joined_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     is_active BOOLEAN DEFAULT true

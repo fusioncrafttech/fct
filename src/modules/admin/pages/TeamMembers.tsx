@@ -38,7 +38,6 @@ const TeamMembersManager: React.FC = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      // For demo, using localStorage. In production, use Supabase
       const stored = localStorage.getItem('team_members');
       const data = stored ? JSON.parse(stored) : [
         {

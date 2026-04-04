@@ -116,9 +116,10 @@ export interface TeamMember {
   name?: string
   email?: string
   role?: 'super_admin' | 'admin' | 'team_member' | 'viewer'
+  designation?: string
+  description?: string
   avatar?: string
   joined_at?: string
-  phone?: string
   is_active?: boolean
 }
 

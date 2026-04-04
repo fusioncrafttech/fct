@@ -56,6 +56,7 @@
     border-radius: 1rem;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
   }
   
   .glass-card:hover {
@@ -92,6 +93,8 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+    min-height: 44px; /* iOS touch target */
+    min-width: 44px; /* iOS touch target */
   }
   
   .btn-primary::before {
@@ -126,6 +129,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-height: 44px; /* iOS touch target */
+    min-width: 44px; /* iOS touch target */
   }
   
   .btn-secondary:hover {
@@ -142,6 +147,7 @@
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     padding: 2rem;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
   }
   
   .card:hover {

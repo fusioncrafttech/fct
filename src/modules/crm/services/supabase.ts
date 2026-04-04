@@ -146,6 +146,26 @@ export const projectsTrackerService = {
 
 // Team Members CRUD
 export const teamMembersService = {
+  async testConnection(): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('team_members')
+        .select('count')
+        .limit(1);
+      
+      if (error) {
+        console.error('Database connection test failed:', error);
+        return false;
+      }
+      
+      console.log('Database connection test passed');
+      return true;
+    } catch (error) {
+      console.error('Database connection test error:', error);
+      return false;
+    }
+  },
+
   async getAll(): Promise<TeamMember[]> {
     const { data, error } = await supabase
       .from('team_members')
@@ -157,14 +177,44 @@ export const teamMembersService = {
   },
 
   async create(member: Omit<TeamMember, 'id' | 'joined_at'>): Promise<TeamMember> {
-    const { data, error } = await supabase
-      .from('team_members')
-      .insert({ ...member, joined_at: new Date().toISOString() })
-      .select()
-      .single();
+    console.log('Creating team member with data:', member);
     
-    if (error) throw error;
-    return data;
+    try {
+      const { data, error } = await supabase
+        .from('team_members')
+        .insert({ ...member, joined_at: new Date().toISOString() })
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Supabase error creating team member:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        
+        // Handle specific error cases
+        if (error.code === '23505') {
+          throw new Error('A team member with this email already exists');
+        } else if (error.code === '23514') {
+          throw new Error('Invalid data format. Please check all required fields.');
+        } else if (error.code === '42501') {
+          throw new Error('Permission denied. You may not have rights to add team members.');
+        } else {
+          throw new Error(`Failed to create team member: ${error.message}`);
+        }
+      }
+      
+      console.log('Team member created successfully:', data);
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('Unexpected error occurred while creating team member');
+    }
   },
 
   async update(id: string, member: Partial<TeamMember>): Promise<TeamMember> {

@@ -5,14 +5,14 @@ import {
   Edit, 
   Trash2, 
   Mail, 
-  Phone, 
   Calendar,
   Shield,
   User,
   UserPlus,
   Search,
   ToggleLeft,
-  ToggleRight
+  ToggleRight,
+  Upload
 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Modal } from '../../../components/modals/Modal';
@@ -32,7 +32,8 @@ const TeamMembersManager: React.FC = () => {
     name: '',
     email: '',
     role: 'team_member' as TeamMember['role'],
-    phone: '',
+    designation: '',
+    description: '',
     avatar: ''
   });
 
@@ -76,13 +77,41 @@ const TeamMembersManager: React.FC = () => {
     }
   };
 
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.name.trim()) {
+      alert('Name is required');
+      return;
+    }
+    
+    if (!formData.email.trim()) {
+      alert('Email is required');
+      return;
+    }
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      alert('Please enter a valid email address');
+      return;
+    }
+    
     try {
+      // Clean and validate the data before sending
       const memberData = {
-        ...formData,
-        is_active: true // New members are active by default
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        role: formData.role as TeamMember['role'],
+        designation: formData.designation.trim() || undefined,
+        description: formData.description.trim() || undefined,
+        avatar: formData.avatar.trim() || undefined,
+        is_active: true
       };
+
+      console.log('Sending member data:', memberData);
       
       if (editingMember?.id) {
         await teamMembersService.update(editingMember.id, memberData);
@@ -94,6 +123,14 @@ const TeamMembersManager: React.FC = () => {
       resetForm();
     } catch (error) {
       console.error('Failed to save team member:', error);
+      // More detailed error logging
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        alert(`Failed to save team member: ${error.message}`);
+      } else {
+        alert('Failed to save team member. Please try again.');
+      }
     }
   };
 
@@ -103,7 +140,8 @@ const TeamMembersManager: React.FC = () => {
       name: member.name || '',
       email: member.email || '',
       role: member.role || 'team_member',
-      phone: member.phone || '',
+      designation: member.designation || '',
+      description: member.description || '',
       avatar: member.avatar || ''
     });
     setModalOpen(true);
@@ -138,10 +176,41 @@ const TeamMembersManager: React.FC = () => {
       name: '',
       email: '',
       role: 'team_member',
-      phone: '',
+      designation: '',
+      description: '',
       avatar: ''
     });
     setEditingMember(null);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPG, PNG, etc.)');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size should be less than 5MB');
+      return;
+    }
+
+    try {
+      // Convert file to base64 for storage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64String = e.target?.result as string;
+        setFormData({ ...formData, avatar: base64String });
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Failed to upload image. Please try again.');
+    }
   };
 
   const getRoleColor = (role: string) => {
@@ -210,10 +279,12 @@ const TeamMembersManager: React.FC = () => {
               </div>
             </div>
           </div>
-          <Button onClick={() => setModalOpen(true)} className="bg-white text-blue-600 hover:bg-blue-50 w-full lg:w-auto">
-            <UserPlus className="w-4 h-4 mr-2" />
-            Add Member
-          </Button>
+          <div className="flex space-x-2">
+            <Button onClick={() => setModalOpen(true)} className="bg-white text-blue-600 hover:bg-blue-50">
+              <UserPlus className="w-4 h-4 mr-2" />
+              Add Member
+            </Button>
+          </div>
         </div>
       </motion.div>
 
@@ -361,12 +432,6 @@ const TeamMembersManager: React.FC = () => {
                         <Mail className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         <span className="truncate">{member.email}</span>
                       </div>
-                      {member.phone && (
-                        <div className="flex items-center space-x-1 truncate">
-                          <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                          <span className="truncate">{member.phone}</span>
-                        </div>
-                      )}
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         <span className="whitespace-nowrap">Joined {member.joined_at ? new Date(member.joined_at).toLocaleDateString() : 'No date'}</span>
@@ -451,20 +516,69 @@ const TeamMembersManager: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Designation</label>
             <Input
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="Enter phone number"
+              value={formData.designation}
+              onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+              placeholder="Enter job title (e.g., Senior Developer, UI/UX Designer)"
+              className="w-full"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Avatar URL (Optional)</label>
-            <Input
-              value={formData.avatar}
-              onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-              placeholder="Enter avatar URL"
+            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Enter team member description (bio, expertise, etc.)"
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Avatar</label>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  id="avatar-upload"
+                />
+                <label
+                  htmlFor="avatar-upload"
+                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors inline-flex items-center"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Image
+                </label>
+                {formData.avatar && (
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, avatar: '' })}
+                    className="text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              {formData.avatar && (
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={formData.avatar}
+                    alt="Avatar preview"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                  />
+                  <span className="text-sm text-gray-600">Avatar uploaded successfully</span>
+                </div>
+              )}
+              <p className="text-xs text-gray-500">Or paste image URL below:</p>
+              <Input
+                value={formData.avatar.startsWith('data:') ? '' : formData.avatar}
+                onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
+                placeholder="Enter avatar URL"
+              />
+            </div>
           </div>
           <div className="flex justify-end space-x-3 pt-4">
             <Button

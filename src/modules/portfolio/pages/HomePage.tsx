@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] py-12 sm:py-16 lg:py-20">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -149,7 +149,7 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
               >
                 Premium Full Stack
                 <br />
@@ -160,7 +160,7 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="text-xl text-gray-300 mb-8 max-w-2xl"
+                className="text-base sm:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl"
               >
                 Modern scalable web applications for startups and businesses. Transform your ideas into powerful digital experiences.
               </motion.p>
@@ -169,11 +169,11 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4"
               >
                 <Link
                   to="/projects"
-                  className="btn-primary text-lg"
+                  className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4"
                   aria-label="View Portfolio"
                 >
                   View Portfolio
@@ -181,7 +181,7 @@ const HomePage: React.FC = () => {
                 </Link>
                 <Link
                   to="/contact"
-                  className="btn-secondary text-lg"
+                  className="btn-secondary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4"
                   aria-label="Contact Me"
                 >
                   Contact Me
@@ -272,7 +272,7 @@ const HomePage: React.FC = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="mt-16 sm:mt-20 lg:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
             {features.map((feature, index) => (
               <motion.div
@@ -280,15 +280,15 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                className="glass-card p-6 text-center group hover:shadow-2xl transition-all duration-300"
+                className="glass-card p-4 sm:p-6 text-center group hover:shadow-2xl transition-all duration-300"
               >
-                <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg">
-                  <feature.icon className="w-10 h-10 text-white" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-purple-200 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
@@ -298,24 +298,24 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Services Preview Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
               Our Services
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               We offer comprehensive digital solutions to help your business thrive in the modern world
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
@@ -323,24 +323,24 @@ const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-card p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20"
+                className="glass-card p-6 sm:p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20"
               >
-                <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                  {React.createElement(service.icon, { className: "w-10 h-10 text-white" })}
+                <div className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                  {React.createElement(service.icon, { className: "w-8 h-8 sm:w-10 sm:h-10 text-white" })}
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-gray-100 transition-colors">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-gray-100 transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-gray-300 mb-6 leading-relaxed flex-grow">
+                <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6 leading-relaxed flex-grow">
                   {service.description}
                 </p>
                 <div className="mt-auto">
                   <Link
                     to="/services"
-                    className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors"
+                    className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors text-sm sm:text-base"
                   >
                     Learn more
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.div>
@@ -350,24 +350,24 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Projects Preview Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-800 via-gray-900 to-slate-900">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-slate-800 via-gray-900 to-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
               Recent Projects
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Take a look at some of our latest work and see how we've helped businesses like yours
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -397,18 +397,18 @@ const HomePage: React.FC = () => {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="p-6 flex flex-col h-full">
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors">
+                <div className="p-4 sm:p-6 flex flex-col h-full">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3 group-hover:text-purple-200 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-gray-300 mb-4 leading-relaxed flex-grow">
+                  <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4 leading-relaxed flex-grow">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {project.tech_stack?.map((tech: string, techIndex: number) => (
                       <span
                         key={techIndex}
-                        className="px-3 py-1 bg-white/10 text-gray-300 text-sm font-medium rounded-full border border-white/20 hover:bg-white/20 transition-colors"
+                        className="px-2 sm:px-3 py-1 bg-white/10 text-gray-300 text-xs sm:text-sm font-medium rounded-full border border-white/20 hover:bg-white/20 transition-colors"
                       >
                         {tech}
                       </span>
@@ -417,10 +417,10 @@ const HomePage: React.FC = () => {
                   <div className="mt-auto">
                     <Link
                       to="/projects"
-                      className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors"
+                      className="inline-flex items-center text-white font-semibold group-hover:text-purple-200 transition-colors text-sm sm:text-base"
                     >
                       View project
-                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -428,37 +428,37 @@ const HomePage: React.FC = () => {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 sm:mt-12">
             <Link
               to="/projects"
-              className="btn-primary inline-flex items-center"
+              className="btn-primary inline-flex items-center text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4"
             >
               View All Projects
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
               What Our Clients Say
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Don't just take our word for it - hear from our satisfied clients
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {testimonialsLoading ? (
               // Loading skeleton
               Array.from({ length: 3 }).map((_, index) => (
@@ -491,7 +491,7 @@ const HomePage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="glass-card p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20 h-full flex flex-col"
+                  className="glass-card p-6 sm:p-8 group cursor-pointer hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-white/20 h-full flex flex-col"
                 >
                   <div className="flex-grow">
                     <div className="flex mb-6">
@@ -499,11 +499,11 @@ const HomePage: React.FC = () => {
                         <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <p className="text-gray-300 mb-8 italic text-lg leading-relaxed">
+                    <p className="text-gray-300 mb-6 sm:mb-8 italic text-base sm:text-lg leading-relaxed">
                       "{testimonial.review_text}"
                     </p>
                     <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
                         {testimonial.photo ? (
                           <img
                             src={testimonial.photo}
@@ -522,10 +522,10 @@ const HomePage: React.FC = () => {
                         )}
                       </div>
                       <div>
-                        <div className="font-bold text-white text-lg">
+                        <div className="font-bold text-white text-base sm:text-lg">
                           {testimonial.client_name}
                         </div>
-                        <div className="text-gray-400">
+                        <div className="text-gray-400 text-sm">
                           {testimonial.company_name}
                         </div>
                       </div>
@@ -545,7 +545,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 premium-gradient">
+      <section className="py-12 sm:py-16 lg:py-20 premium-gradient">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -553,23 +553,23 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
               Ready to Start Your Project?
             </h2>
-            <p className="text-xl text-gray-100 mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-100 mb-6 sm:mb-8 px-4">
               Let's work together to bring your ideas to life. Get in touch with us today.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
               <Link
                 to="/contact"
-                className="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-8 py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center shadow-lg"
+                className="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center shadow-lg text-base sm:text-lg"
               >
                 Get Started
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
               </Link>
               <Link
                 to="/about"
-                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold px-8 py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center"
+                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center text-base sm:text-lg"
               >
                 Learn More
               </Link>

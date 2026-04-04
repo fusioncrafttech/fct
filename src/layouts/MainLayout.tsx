@@ -73,21 +73,20 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   )}></span>
                 </Link>
               ))}
+              {/* Login Button - Hidden on mobile */}
+              <Link
+                to="/login"
+                className="btn-primary text-sm font-medium hidden md:block"
+              >
+                Login
+              </Link>
             </div>
-
-            {/* Login Button */}
-            <Link
-              to="/login"
-              className="btn-primary text-sm font-medium"
-            >
-              Login
-            </Link>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-300 hover:text-white transition-colors p-2"
+                className="text-gray-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 touch-manipulation"
                 aria-label="Toggle mobile menu"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,16 +105,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            className="md:hidden fixed top-20 left-0 right-0 glass border-b border-white/10 shadow-2xl z-50"
+            className="md:hidden fixed top-20 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/20 shadow-2xl z-50 max-h-[60vh] overflow-y-auto"
           >
-            <div className="max-w-7xl mx-auto px-4 py-2">
+            <div className="max-w-7xl mx-auto px-4 py-3">
               {NAVIGATION_ITEMS.public.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "block px-4 py-3 rounded-xl text-base font-medium transition-all",
+                    "block px-4 py-3 sm:py-4 rounded-xl text-base font-medium transition-all touch-manipulation",
                     location.pathname === item.href
                       ? "text-white bg-white/10"
                       : "text-gray-300 hover:text-white hover:bg-white/5"
@@ -128,7 +127,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 rounded-xl text-base font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all"
+                  className="block px-4 py-3 sm:py-4 rounded-xl text-base font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all touch-manipulation"
                 >
                   Login
                 </Link>
@@ -150,8 +149,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
       {/* Footer */}
       <footer className="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="relative">
@@ -164,17 +163,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 </div>
                 <span className="text-2xl font-bold text-white">Fusioncrafttech</span>
               </div>
-              <p className="text-gray-300 max-w-md leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-300 max-w-md leading-relaxed">
                 Premium SaaS-style internal freelance agency toolkit for modern teams. Transform your workflow with cutting-edge solutions.
               </p>
               
               {/* Social Icons */}
-              <div className="flex space-x-4 mt-6">
+              <div className="flex space-x-3 sm:space-x-4 mt-4 sm:mt-6">
                 <a 
                   href="https://linkedin.com/company/fusioncrafttech" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 touch-manipulation"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -185,7 +184,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   href="https://instagram.com/fusioncrafttech" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 touch-manipulation"
                   aria-label="Instagram"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -196,7 +195,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   href="https://github.com/fusioncrafttech" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 touch-manipulation"
                   aria-label="GitHub"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -213,7 +212,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   <li key={item.name}>
                     <Link
                       to={item.href}
-                      className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group"
+                      className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group text-sm sm:text-base touch-manipulation py-2"
                     >
                       <span className="w-1 h-1 bg-purple-500 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                       {item.name}
@@ -227,35 +226,35 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               <h3 className="font-semibold text-white mb-6 text-lg">Services</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group">
+                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group text-sm sm:text-base touch-manipulation py-2">
                     <span className="w-1 h-1 bg-blue-500 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                     Web Development
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group">
+                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group text-sm sm:text-base touch-manipulation py-2">
                     <span className="w-1 h-1 bg-green-500 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                     Mobile Apps
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group">
+                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group text-sm sm:text-base touch-manipulation py-2">
                     <span className="w-1 h-1 bg-orange-500 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
                     UI/UX Design
                   </Link>
                 </li>
                 <li>
-                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group">
+                  <Link to="/services" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group text-sm sm:text-base touch-manipulation py-2">
                     <span className="w-1 h-1 bg-pink-500 rounded-full mr-3 group-hover:scale-150 transition-transform"></span>
-                    Consulting
+                    Cloud Services
                   </Link>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div className="mt-12 pt-8 border-t border-white/10 text-center">
-            <p className="text-gray-400">
+          <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10 text-center">
+            <p className="text-gray-400 text-sm sm:text-base">
               © 2026 Fusioncrafttech. All rights reserved. 
             </p>
           </div>

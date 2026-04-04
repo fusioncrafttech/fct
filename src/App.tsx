@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import MainLayout from './layouts/MainLayout';
@@ -6,8 +6,8 @@ import AdminLayout from './layouts/AdminLayout';
 import CRMLayout from './layouts/CRMLayout';
 import AuthLayout from './layouts/AuthLayout';
 import AuthGuard from './components/AuthGuard';
-import SplashScreen from './components/SplashScreen';
 import AppLoader from './components/AppLoader';
+import ScrollToTop from './components/ScrollToTop';
 
 // Portfolio Pages
 const HomePage = lazy(() => import('./modules/portfolio/pages/HomePage'));
@@ -40,12 +40,6 @@ const TeamMembersManager = lazy(() => import('./modules/crm/pages/TeamMembers'))
 const ToolkitDashboard = lazy(() => import('./modules/toolkit/pages/Dashboard'));
 
 function App() {
-  const [showSplash, setShowSplash] = useState(true);
-
-  const handleSplashComplete = () => {
-    setShowSplash(false);
-  };
-
   const pageVariants = {
     initial: {
       opacity: 0,
@@ -68,12 +62,9 @@ function App() {
     duration: 0.5
   };
 
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />;
-  }
-
   return (
     <Router>
+      <ScrollToTop />
       <Suspense fallback={<AppLoader />}>
         <motion.div
           initial="initial"
