@@ -14,6 +14,7 @@ const HomePage = lazy(() => import('./modules/portfolio/pages/HomePage'));
 const AboutPage = lazy(() => import('./modules/portfolio/pages/AboutPage'));
 const ServicesPage = lazy(() => import('./modules/portfolio/pages/ServicesPage'));
 const ProjectsPage = lazy(() => import('./modules/portfolio/pages/ProjectsPage'));
+const ProjectDetailPage = lazy(() => import('./modules/portfolio/pages/ProjectDetailPage'));
 const ContactPage = lazy(() => import('./modules/portfolio/pages/ContactPage'));
 
 // Auth Pages
@@ -79,6 +80,7 @@ function App() {
             <Route path="about" element={<AboutPage />} />
             <Route path="services" element={<ServicesPage />} />
             <Route path="projects" element={<ProjectsPage />} />
+            <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="contact" element={<ContactPage />} />
           </Route>
 
