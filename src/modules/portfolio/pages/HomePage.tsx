@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Code, Zap, Shield, Globe, Monitor, Smartphone, Palette, Cloud } from 'lucide-react';
+import { ArrowRight, Star, Code, Zap, Shield, Globe, Monitor, Smartphone, Palette, Cloud, Edit3 } from 'lucide-react';
 import { projectsService } from '../../admin/services/supabase';
 import { testimonialsService } from '../../admin/services/supabase';
 import type { Project, Testimonial } from '@/types/global';
+import ReviewForm from '../../../components/ReviewForm';
 
 const HomePage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -39,6 +41,11 @@ const HomePage: React.FC = () => {
     } finally {
       setTestimonialsLoading(false);
     }
+  };
+
+  const handleReviewSubmit = () => {
+    // Refresh testimonials after a new review is submitted
+    fetchTestimonials();
   };
   const features = [
     {
@@ -456,6 +463,22 @@ const HomePage: React.FC = () => {
             <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Don't just take our word for it - hear from our satisfied clients
             </p>
+            
+            {/* Write a Review Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-6"
+            >
+              <button
+                onClick={() => setIsReviewFormOpen(true)}
+                className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200 backdrop-blur-sm"
+              >
+                <Edit3 className="w-4 h-4 mr-2" />
+                Write a Review
+              </button>
+            </motion.div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -543,6 +566,13 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Review Form Modal */}
+      <ReviewForm
+        isOpen={isReviewFormOpen}
+        onClose={() => setIsReviewFormOpen(false)}
+        onSubmit={handleReviewSubmit}
+      />
 
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20 premium-gradient">

@@ -4,6 +4,7 @@ import { Button } from '../../../components/ui/Button';
 import { Modal } from '../../../components/modals/Modal';
 import { Input } from '../../../components/forms/Input';
 import { Textarea } from '../../../components/forms/Textarea';
+import Select from '../../../components/forms/Select';
 import ImageUpload from '../../../components/ImageUpload';
 import { projectsService } from '../services/supabase';
 import type { Project } from '@/types/global';
@@ -13,6 +14,15 @@ const ProjectsManager: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  
+  const categoryOptions = [
+    { value: 'Web', label: 'Web' },
+    { value: 'Mobile App', label: 'Mobile App' },
+    { value: 'UI/UX Design', label: 'UI/UX Design' },
+    { value: 'Design', label: 'Design' },
+    { value: 'Cloud Services', label: 'Cloud Services' }
+  ];
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -20,6 +30,7 @@ const ProjectsManager: React.FC = () => {
     tech_stack: '',
     github_url: '',
     live_url: '',
+    category: 'Web',
     featured: false
   });
 
@@ -72,6 +83,7 @@ const ProjectsManager: React.FC = () => {
       tech_stack: project.tech_stack?.join(', ') || '',
       github_url: project.github_url || '',
       live_url: project.live_url || '',
+      category: project.category || 'Web',
       featured: project.featured || false
     });
     setModalOpen(true);
@@ -98,6 +110,7 @@ const ProjectsManager: React.FC = () => {
       tech_stack: '',
       github_url: '',
       live_url: '',
+      category: 'Web',
       featured: false
     });
     setEditingProject(null);
@@ -265,6 +278,15 @@ const ProjectsManager: React.FC = () => {
               value={formData.tech_stack}
               onChange={(e) => setFormData({ ...formData, tech_stack: e.target.value })}
               placeholder="React, TypeScript, TailwindCSS"
+              required
+              className="col-span-1 md:col-span-2"
+            />
+            
+            <Select
+              label="Category"
+              value={formData.category}
+              onChange={(value) => setFormData({ ...formData, category: value })}
+              options={categoryOptions}
               required
               className="col-span-1 md:col-span-2"
             />

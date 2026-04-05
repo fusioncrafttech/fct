@@ -8,6 +8,9 @@ import type { Project } from '@/types/global';
 const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const categories = ['All', 'Web', 'Mobile App', 'UI/UX Design', 'Design', 'Cloud Services'];
 
   useEffect(() => {
     fetchProjects();
@@ -25,7 +28,11 @@ const ProjectsPage: React.FC = () => {
     }
   };
 
-  const featuredProjects = projects.filter(project => project.featured);
+  const filteredProjects = selectedCategory === 'All' 
+    ? projects 
+    : projects.filter(project => project.category === selectedCategory);
+
+  const featuredProjects = filteredProjects.filter(project => project.featured);
 
   if (loading) {
     return (
@@ -180,12 +187,29 @@ const ProjectsPage: React.FC = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               All Projects
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
               Browse our complete portfolio of work across different industries and technologies
             </p>
+            
+            {/* Category Filter Buttons */}
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                    selectedCategory === category
+                      ? 'bg-primary-600 text-white shadow-lg transform scale-105'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          {projects.length === 0 ? (
+          {filteredProjects.length === 0 ? (
             <div className="text-center py-20">
               <div className="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Code className="w-10 h-10 text-gray-400" />
@@ -204,7 +228,7 @@ const ProjectsPage: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
+              {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}

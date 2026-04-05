@@ -6,7 +6,7 @@ import AdminLayout from './layouts/AdminLayout';
 import CRMLayout from './layouts/CRMLayout';
 import AuthLayout from './layouts/AuthLayout';
 import AuthGuard from './components/AuthGuard';
-import AppLoader from './components/AppLoader';
+import LoadingScreen from './components/LoadingScreen';
 import ScrollToTop from './components/ScrollToTop';
 
 // Portfolio Pages
@@ -26,7 +26,6 @@ const AdminDashboard = lazy(() => import('./modules/admin/pages/Dashboard'));
 const ServicesManager = lazy(() => import('./modules/admin/pages/Services'));
 const ProjectsManager = lazy(() => import('./modules/admin/pages/Projects'));
 const MessagesManager = lazy(() => import('./modules/admin/pages/Messages'));
-const TestimonialsManager = lazy(() => import('./modules/admin/pages/Testimonials'));
 const AdminProfile = lazy(() => import('./modules/admin/pages/Profile'));
 
 // CRM Pages
@@ -65,7 +64,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <Suspense fallback={<AppLoader />}>
+      <Suspense fallback={<LoadingScreen />}>
         <motion.div
           initial="initial"
           animate="in"
@@ -99,7 +98,6 @@ function App() {
             <Route path="services" element={<ServicesManager />} />
             <Route path="projects" element={<ProjectsManager />} />
             <Route path="messages" element={<MessagesManager />} />
-            <Route path="testimonials" element={<TestimonialsManager />} />
             <Route path="team-members" element={<TeamMembersManager />} />
             {/* <Route path="settings" element={<AdminSettingsComponent />} /> */}
             <Route path="profile" element={<AdminProfile />} />
