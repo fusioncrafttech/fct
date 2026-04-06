@@ -4,14 +4,13 @@ import { pdf } from '@react-pdf/renderer';
 import InvoicePDF from '../../../components/pdf/InvoicePDF';
 import PDFPreview from '../../../components/pdf/PDFPreview';
 import PreviewModal from '../../../components/modals/PreviewModal';
-import { DocumentManager, defaultPaymentInstructions, defaultNotes } from '../../../utils/documentUtils';
+import { DocumentManager, defaultPaymentInstructions } from '../../../utils/documentUtils';
 import type { InvoiceData, InvoiceItem, ClientDetails } from '../../../types/documents';
 
 export default function InvoiceForm() {
   const [showPreview, setShowPreview] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [date, setDate] = useState('');
-  const [notes, setNotes] = useState(defaultNotes);
 
   const [companyInfo, setCompanyInfo] = useState({
     name: 'Fusioncrafttech',
