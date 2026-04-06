@@ -12,7 +12,6 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis',
-    Buffer: 'Buffer',
   },
   optimizeDeps: {
     include: ['buffer', 'process'],
@@ -20,6 +19,17 @@ export default defineConfig({
   server: {
     fs: {
       allow: ['..'],
+    },
+  },
+  build: {
+    rollupOptions: {
+      external: [],
+      output: {
+        globals: {
+          buffer: 'Buffer',
+          process: 'process',
+        },
+      },
     },
   },
 })

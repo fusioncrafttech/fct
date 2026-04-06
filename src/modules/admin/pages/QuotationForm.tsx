@@ -136,7 +136,8 @@ export default function QuotationForm() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <h1 className="text-3xl font-bold text-gray-900">Create Quotation</h1>
           
-          <div className="flex space-x-3">
+          {/* Desktop buttons - hidden on mobile */}
+          <div className="hidden lg:flex space-x-3">
             <button
               onClick={previewPDF}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -191,14 +192,7 @@ export default function QuotationForm() {
 
         {/* From Details */}
         <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <img 
-              src="/FCT Logo.png" 
-              alt="Fusioncrafttech Logo" 
-              className="w-16 h-6 mr-3 object-contain"
-            />
-            <h2 className="text-xl font-semibold text-gray-900">From Details</h2>
-          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">From Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -465,6 +459,26 @@ export default function QuotationForm() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Mobile buttons - shown only on mobile */}
+      <div className="lg:hidden bg-white rounded-lg shadow-lg p-6 mt-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={previewPDF}
+            className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
+          >
+            <Eye className="w-4 h-4 mr-2" />
+            Preview PDF
+          </button>
+          <button
+            onClick={generatePDF}
+            className="flex items-center justify-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-full sm:w-auto"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download PDF
+          </button>
         </div>
       </div>
 
