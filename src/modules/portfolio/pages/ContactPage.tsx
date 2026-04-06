@@ -106,7 +106,7 @@ const ContactPage: React.FC = () => {
                   Business Hours
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Monday - Friday: 9:00 AM - 6:00 PM PST<br />
+                  Monday - Friday: 9:00 AM - 6:00 PM<br />
                   Saturday - Sunday: Closed
                 </p>
               </div>
