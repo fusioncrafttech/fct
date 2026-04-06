@@ -14,7 +14,11 @@ import {
   Moon,
   Sun,
   Settings,
-  Quote
+  Quote,
+  FileText,
+  Receipt,
+  BookOpen,
+  History
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { getStoredUserProfile, signOut, type UserProfile } from '../services/auth';
@@ -83,6 +87,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { name: 'Messages', href: '/admin/messages', icon: Mail },
     { name: 'Testimonials', href: '/admin/testimonials', icon: Quote },
     { name: 'Team Members', href: '/admin/team-members', icon: Users },
+    { name: 'Create Quotation', href: '/admin/create-quotation', icon: FileText },
+    { name: 'Create Invoice', href: '/admin/create-invoice', icon: Receipt },
+    { name: 'Create Brochure', href: '/admin/create-brochure', icon: BookOpen },
+    { name: 'Document History', href: '/admin/document-history', icon: History },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

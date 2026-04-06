@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Save, Globe } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/forms/Input';
-import type { AdminSettings } from '@/types/global';
+import type { AdminSettings } from '../../../types/global';
 
 const Settings: React.FC = () => {
   const [settings, setSettings] = useState<AdminSettings>({

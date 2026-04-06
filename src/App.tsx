@@ -28,6 +28,11 @@ const ServicesManager = lazy(() => import('./modules/admin/pages/Services'));
 const ProjectsManager = lazy(() => import('./modules/admin/pages/Projects'));
 const MessagesManager = lazy(() => import('./modules/admin/pages/Messages'));
 const AdminProfile = lazy(() => import('./modules/admin/pages/Profile'));
+const AdminSettings = lazy(() => import('./modules/admin/pages/Settings'));
+const QuotationForm = lazy(() => import('./modules/admin/pages/QuotationForm'));
+const InvoiceForm = lazy(() => import('./modules/admin/pages/InvoiceForm'));
+const BrochureForm = lazy(() => import('./modules/admin/pages/BrochureForm'));
+const DocumentHistory = lazy(() => import('./modules/admin/pages/DocumentHistory'));
 
 // CRM Pages
 const CRMDashboard = lazy(() => import('./modules/crm/pages/Dashboard'));
@@ -101,8 +106,12 @@ function App() {
             <Route path="projects" element={<ProjectsManager />} />
             <Route path="messages" element={<MessagesManager />} />
             <Route path="team-members" element={<TeamMembersManager />} />
-            {/* <Route path="settings" element={<AdminSettingsComponent />} /> */}
             <Route path="profile" element={<AdminProfile />} />
+            <Route path="create-quotation" element={<QuotationForm />} />
+            <Route path="create-invoice" element={<InvoiceForm />} />
+            <Route path="create-brochure" element={<BrochureForm />} />
+            <Route path="document-history" element={<DocumentHistory />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
 
           {/* CRM Routes */}
