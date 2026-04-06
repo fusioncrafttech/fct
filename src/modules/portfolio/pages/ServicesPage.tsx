@@ -16,8 +16,17 @@ const ServicesPage: React.FC = () => {
   const fetchServices = async () => {
     try {
       const data = await servicesService.getAll();
-      // Only show active services
-      const activeServices = data.filter((service: Service) => service.is_active !== false);
+      // Only show active services and sort by sort_order
+      const activeServices = data
+        .filter((service: Service) => service.is_active !== false)
+        .sort((a: Service, b: Service) => {
+          // Primary sort by sort_order
+          if (a.sort_order !== undefined && b.sort_order !== undefined) {
+            return a.sort_order - b.sort_order;
+          }
+          // Fallback to created_at if sort_order is not set
+          return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime();
+        });
       setServices(activeServices);
     } catch (error) {
       console.error('Failed to fetch services:', error);

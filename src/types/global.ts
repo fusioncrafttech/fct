@@ -21,6 +21,7 @@ export interface Service {
   price?: string
   icon?: string
   is_active?: boolean
+  sort_order?: number
   created_at?: string
   updated_at?: string
 }
