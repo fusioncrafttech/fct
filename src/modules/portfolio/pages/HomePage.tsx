@@ -104,11 +104,11 @@ const HomePage: React.FC = () => {
         {/* Animated background shapes */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="floating-shape w-96 h-96 bg-purple-500/20"
+            className="floating-shape w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-purple-500/20"
             style={{ top: '10%', left: '10%' }}
             animate={{ 
-              x: [0, 100, 0],
-              y: [0, -50, 0],
+              x: [0, 50, 0],
+              y: [0, -30, 0],
             }}
             transition={{ 
               duration: 8,
@@ -117,11 +117,11 @@ const HomePage: React.FC = () => {
             }}
           />
           <motion.div
-            className="floating-shape w-80 h-80 bg-blue-500/20"
+            className="floating-shape w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-blue-500/20"
             style={{ bottom: '10%', right: '10%' }}
             animate={{ 
-              x: [0, -100, 0],
-              y: [0, 50, 0],
+              x: [0, -50, 0],
+              y: [0, 30, 0],
             }}
             transition={{ 
               duration: 10,
@@ -130,7 +130,7 @@ const HomePage: React.FC = () => {
             }}
           />
           <motion.div
-            className="floating-shape w-64 h-64 bg-indigo-500/20"
+            className="floating-shape w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-indigo-500/20"
             style={{ top: '50%', left: '70%' }}
             animate={{ 
               scale: [1, 1.2, 1],
@@ -214,10 +214,10 @@ const HomePage: React.FC = () => {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                  className="glass-card p-8 rounded-3xl"
+                  className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl"
                 >
                   <svg
-                    className="w-full h-64"
+                    className="w-full h-48 sm:h-56 md:h-64"
                     viewBox="0 0 400 300"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -287,15 +287,15 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                className="glass-card p-4 sm:p-6 text-center group hover:shadow-2xl transition-all duration-300"
+                className="glass-card p-3 sm:p-4 md:p-6 text-center group hover:shadow-2xl transition-all duration-300"
               >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg">
-                  <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-20 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 md:mb-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-10 lg:w-10 lg:h-10 text-white" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-purple-200 transition-colors">
+                <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-purple-200 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
@@ -322,7 +322,7 @@ const HomePage: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}

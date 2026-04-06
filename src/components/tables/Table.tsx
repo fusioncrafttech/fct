@@ -48,53 +48,57 @@ export function Table<T extends Record<string, any>>({
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className={cn('w-full', className)}>
-        <thead>
-          <tr className="border-b border-gray-200">
-            {columns.map((column, index) => (
-              <th
-                key={index}
-                className={cn(
-                  'text-left py-3 px-4 text-sm font-semibold text-gray-900',
-                  column.className
-                )}
-              >
-                {column.title}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <motion.tr
-              key={index}
-              className={cn(
-                'border-b border-gray-100 hover:bg-gray-50 transition-colors',
-                onRowClick && 'cursor-pointer'
-              )}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              onClick={() => onRowClick?.(item, index)}
-            >
-              {columns.map((column, colIndex) => (
-                <td
-                  key={colIndex}
+    <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+      <div className="min-w-full inline-block align-middle">
+        <table className={cn('w-full min-w-full', className)}>
+          <thead className="bg-gray-50 dark:bg-gray-800">
+            <tr className="border-b border-gray-200 dark:border-gray-700">
+              {columns.map((column, index) => (
+                <th
+                  key={index}
                   className={cn(
-                    'py-3 px-4 text-sm text-gray-700',
+                    'text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap',
                     column.className
                   )}
                 >
-                  {column.render
-                    ? column.render(column.key === 'actions' ? null : item[column.key as keyof T], item, index)
-                    : column.key === 'actions' ? null : item[column.key as keyof T]}
-                </td>
+                  {column.title}
+                </th>
               ))}
-            </motion.tr>
-          ))}
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            {data.map((item, index) => (
+              <motion.tr
+                key={index}
+                className={cn(
+                  'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors',
+                  onRowClick && 'cursor-pointer'
+                )}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                onClick={() => onRowClick?.(item, index)}
+              >
+                {columns.map((column, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className={cn(
+                      'py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap',
+                      column.className
+                    )}
+                  >
+                    <div className="min-h-6 sm:min-h-8 flex items-center">
+                      {column.render
+                        ? column.render(column.key === 'actions' ? null : item[column.key as keyof T], item, index)
+                        : column.key === 'actions' ? null : item[column.key as keyof T]}
+                    </div>
+                  </td>
+                ))}
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

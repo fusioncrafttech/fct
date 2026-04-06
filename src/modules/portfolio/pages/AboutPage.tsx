@@ -99,10 +99,10 @@ const AboutPage: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl lg:text-6xl font-bold gradient-text mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text mb-4 sm:mb-6">
               About Fusioncrafttech
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 px-4">
               We are a team of passionate developers, designers, and innovators dedicated to creating exceptional digital experiences that transform businesses and delight users.
             </p>
           </motion.div>
@@ -112,7 +112,7 @@ const AboutPage: React.FC = () => {
       {/* Stats Section */}
       <section className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -122,10 +122,10 @@ const AboutPage: React.FC = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="text-4xl lg:text-5xl font-bold text-primary-600 dark:text-primary-400 mb-2">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-600 dark:text-primary-400 mb-2">
                   {stat.number}
                 </div>
-                <div className="text-gray-600 dark:text-gray-300">
+                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   {stat.label}
                 </div>
               </motion.div>
@@ -144,7 +144,7 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Our Story
             </h2>
           </motion.div>
@@ -156,14 +156,14 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
             className="prose prose-lg dark:prose-invert max-w-none"
           >
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 lg:p-12">
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-8 lg:p-12">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                 Founded in 2019, Fusioncrafttech began with a simple mission: to bridge the gap between innovative ideas and powerful digital solutions. What started as a small team of passionate developers has grown into a full-service digital agency serving clients worldwide.
               </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                 Our journey has been defined by continuous learning, adaptation to emerging technologies, and an unwavering commitment to excellence. We've had the privilege of working with startups, enterprises, and everything in between, helping them navigate the complex digital landscape.
               </p>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                 Today, we continue to push boundaries and challenge conventions, always asking "what's next?" and "how can we do better?" Our story is still being written, and we're excited to have you be part of it.
               </p>
             </div>
@@ -181,15 +181,15 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Our Values
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
               The principles that guide everything we do
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
@@ -199,13 +199,13 @@ const AboutPage: React.FC = () => {
                 viewport={{ once: true }}
                 className="card text-center"
               >
-                <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <value.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600 dark:text-primary-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   {value.description}
                 </p>
               </motion.div>
@@ -224,10 +224,10 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Meet Our Team
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
               The talented individuals behind our success
             </p>
           </motion.div>
@@ -245,7 +245,7 @@ const AboutPage: React.FC = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {teamMembers.map((member, index) => (
                 <motion.div
                   key={member.id}
@@ -256,7 +256,7 @@ const AboutPage: React.FC = () => {
                   className="card text-center hover:shadow-lg transition-shadow"
                 >
                   <div className="relative mb-4">
-                    <div className="w-24 h-24 rounded-full mx-auto bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-800 flex items-center justify-center">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-800 flex items-center justify-center">
                       {member.avatar ? (
                         <img 
                           src={member.avatar} 
@@ -264,22 +264,22 @@ const AboutPage: React.FC = () => {
                           className="w-full h-full rounded-full object-cover"
                         />
                       ) : (
-                        <span className="text-2xl font-bold text-gray-500">
+                        <span className="text-xl sm:text-2xl font-bold text-gray-500">
                           {member.name?.charAt(0).toUpperCase() || 'T'}
                         </span>
                       )}
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     {member.name}
                   </h3>
                   
-                  <div className="text-primary-600 dark:text-primary-400 font-medium mb-3">
+                  <div className="text-primary-600 dark:text-primary-400 font-medium mb-2 sm:mb-3 text-sm sm:text-base">
                     {member.designation || getRoleDisplay(member.role)}
                   </div>
                   
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4">
                     {member.description || (
                       member.role === 'super_admin' && 'Visionary leader with 10+ years of experience in tech innovation and digital transformation.'
                     ) || (
@@ -306,18 +306,18 @@ const AboutPage: React.FC = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
               Ready to Work Together?
             </h2>
-            <p className="text-xl text-primary-100 mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-primary-100 mb-6 sm:mb-8 px-4">
               Let's discuss how we can help bring your vision to life
             </p>
             <a
               href="/contact"
-              className="bg-white text-primary-600 hover:bg-gray-100 font-medium px-8 py-4 rounded-lg transition-colors inline-flex items-center"
+              className="bg-white text-primary-600 hover:bg-gray-100 font-medium px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-colors inline-flex items-center text-base sm:text-lg"
             >
               Get in Touch
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </a>
           </motion.div>
         </div>

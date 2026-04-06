@@ -58,33 +58,33 @@ const SortableServiceItem: React.FC<SortableServiceItemProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"
+      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-3 sm:p-4 hover:shadow-md transition-shadow"
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3 sm:gap-4">
         {/* Drag Handle */}
         <div
           {...attributes}
           {...listeners}
-          className="flex items-center justify-center cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 transition-colors"
+          className="flex items-center justify-center cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 transition-colors p-1 sm:p-0"
         >
-          <GripVertical className="w-5 h-5" />
+          <GripVertical className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
 
         {/* Service Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 truncate">{service.title}</h3>
-              <p className="text-sm text-gray-600 mt-1 line-clamp-2">{service.description}</p>
-              <div className="flex items-center gap-4 mt-2">
-                <span className="text-sm font-medium text-gray-900">
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate text-sm sm:text-base">{service.title}</h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">{service.description}</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2">
+                <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">
                   {service.price ? `₹${service.price}` : 'Price not set'}
                 </span>
                 <span
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     service.is_active
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                      : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
                   }`}
                 >
                   {service.is_active ? 'Active' : 'Inactive'}
@@ -93,23 +93,26 @@ const SortableServiceItem: React.FC<SortableServiceItemProps> = ({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
               <Button
                 size="sm"
                 variant="ghost"
-                icon={<Edit className="w-4 h-4" />}
+                icon={<Edit className="w-3 h-3 sm:w-4 sm:h-4" />}
+                className="p-1.5 sm:p-2"
                 onClick={() => onEdit(service)}
               />
               <Button
                 size="sm"
                 variant="ghost"
-                icon={service.is_active ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
+                icon={service.is_active ? <PowerOff className="w-3 h-3 sm:w-4 sm:h-4" /> : <Power className="w-3 h-3 sm:w-4 sm:h-4" />}
+                className="p-1.5 sm:p-2"
                 onClick={() => onToggleActive(service)}
               />
               <Button
                 size="sm"
-                variant="danger"
-                icon={<Trash2 className="w-4 h-4" />}
+                variant="ghost"
+                icon={<Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />}
+                className="p-1.5 sm:p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
                 onClick={() => onDelete(service)}
               />
             </div>
@@ -278,12 +281,12 @@ const ServicesManager: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Services Manager</h1>
-          <p className="text-gray-600 mt-2">Manage your service offerings. Drag to reorder.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Services Manager</h1>
+          <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">Manage your service offerings. Drag to reorder.</p>
         </div>
         <Button
           icon={<Plus className="w-4 h-4" />}
@@ -291,6 +294,7 @@ const ServicesManager: React.FC = () => {
             resetForm();
             setModalOpen(true);
           }}
+          className="w-full sm:w-auto"
         >
           Add Service
         </Button>
@@ -306,7 +310,7 @@ const ServicesManager: React.FC = () => {
           items={services.map(s => s.id || s.title)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {services.map((service) => (
               <SortableServiceItem
                 key={service.id || service.title}
@@ -322,18 +326,19 @@ const ServicesManager: React.FC = () => {
 
       {/* Empty State */}
       {services.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <Plus className="w-12 h-12 mx-auto" />
+        <div className="text-center py-8 sm:py-12">
+          <div className="text-gray-400 mb-3 sm:mb-4">
+            <Plus className="w-10 h-10 sm:w-12 sm:h-12 mx-auto" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No services yet</h3>
-          <p className="text-gray-600 mb-4">Get started by adding your first service.</p>
+          <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No services yet</h3>
+          <p className="text-gray-600 mb-4 text-sm sm:text-base">Get started by adding your first service.</p>
           <Button
             icon={<Plus className="w-4 h-4" />}
             onClick={() => {
               resetForm();
               setModalOpen(true);
             }}
+            className="w-full sm:w-auto"
           >
             Add Service
           </Button>
