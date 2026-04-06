@@ -217,6 +217,10 @@ const ProjectsTracker: React.FC = () => {
                       </div>
                     </div>
                     
+                    {project.description && (
+                      <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
+                    )}
+                    
                     <p className="text-sm text-gray-600">{project.client}</p>
                     
                     <div className="flex items-center justify-between">
@@ -271,6 +275,13 @@ const ProjectsTracker: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
           />
+          <Textarea
+            label="Description"
+            value={formData.description}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            rows={3}
+            placeholder="Describe the project scope and requirements..."
+          />
           <Input
             label="Client"
             value={formData.client}
@@ -297,9 +308,9 @@ const ProjectsTracker: React.FC = () => {
                 onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectTrackerStatus })}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                <option value="planning">Planning</option>
+                <option value="todo">To Do</option>
                 <option value="in_progress">In Progress</option>
-                <option value="testing">Testing</option>
+                <option value="review">Review</option>
                 <option value="completed">Completed</option>
               </select>
             </div>
