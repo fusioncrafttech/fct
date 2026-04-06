@@ -39,7 +39,7 @@ const CRMDashboard = lazy(() => import('./modules/crm/pages/Dashboard'));
 const ProjectsTracker = lazy(() => import('./modules/crm/pages/Projects'));
 const TasksManager = lazy(() => import('./modules/crm/pages/Tasks'));
 const InternalMessages = lazy(() => import('./modules/crm/pages/InternalMessages'));
-const TeamMembersManager = lazy(() => import('./modules/crm/pages/TeamMembers'));
+const TeamMembersManager = lazy(() => import('./modules/crm/pages/TeamMembersView'));
 
 // Toolkit Pages
 const ToolkitDashboard = lazy(() => import('./modules/toolkit/pages/Dashboard'));
