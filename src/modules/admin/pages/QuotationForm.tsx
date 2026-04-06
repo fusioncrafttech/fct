@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2, Download, Eye } from 'lucide-react';
 import { pdf } from '@react-pdf/renderer';
 import QuotationPDF from '../../../components/pdf/QuotationPDF';
+import PDFPreview from '../../../components/pdf/PDFPreview';
 import PreviewModal from '../../../components/modals/PreviewModal';
 import { DocumentManager, defaultTerms, defaultNotes } from '../../../utils/documentUtils';
 import type { QuotationData, ServiceItem, ClientDetails } from '../../../types/documents';
@@ -132,55 +133,8 @@ export default function QuotationForm() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <h1 className="text-3xl font-bold text-gray-900">Create Quotation</h1>
-          
-          {/* From Section */}
-          <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-            <div className="flex items-start space-x-4">
-              <img 
-                src="/FCT Logo.png" 
-                alt="Fusioncrafttech Logo" 
-                className="w-12 h-4 rounded mt-1"
-              />
-              <div className="flex-1 space-y-2">
-                <input
-                  type="text"
-                  value={companyInfo.name}
-                  onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
-                  className="font-bold text-gray-900 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none text-sm w-full"
-                />
-                <input
-                  type="text"
-                  value={companyInfo.phone}
-                  onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
-                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
-                  placeholder="Phone number"
-                />
-                <input
-                  type="text"
-                  value={companyInfo.email}
-                  onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
-                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
-                  placeholder="Email address"
-                />
-                <input
-                  type="text"
-                  value={companyInfo.website}
-                  onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
-                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
-                  placeholder="Website"
-                />
-                <input
-                  type="text"
-                  value={companyInfo.address}
-                  onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
-                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
-                  placeholder="Address (optional)"
-                />
-              </div>
-            </div>
-          </div>
           
           <div className="flex space-x-3">
             <button
@@ -198,6 +152,15 @@ export default function QuotationForm() {
               Download PDF
             </button>
           </div>
+        </div>
+
+        {/* Document Header */}
+        <div className="flex justify-center mb-8">
+          <img 
+            src="/FCT Logo.png" 
+            alt="Fusioncrafttech Logo" 
+            className="w-24 h-8 object-contain"
+          />
         </div>
 
         {/* Document Information */}
@@ -223,6 +186,80 @@ export default function QuotationForm() {
               onChange={(e) => setDate(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+          </div>
+        </div>
+
+        {/* From Details */}
+        <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <img 
+              src="/FCT Logo.png" 
+              alt="Fusioncrafttech Logo" 
+              className="w-16 h-6 mr-3 object-contain"
+            />
+            <h2 className="text-xl font-semibold text-gray-900">From Details</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Company Name
+              </label>
+              <input
+                type="text"
+                value={companyInfo.name}
+                onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter company name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phone
+              </label>
+              <input
+                type="tel"
+                value={companyInfo.phone}
+                onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter phone number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                value={companyInfo.email}
+                onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter email address"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Website
+              </label>
+              <input
+                type="url"
+                value={companyInfo.website}
+                onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter website URL"
+              />
+            </div>
+            <div className="md:col-span-2 lg:col-span-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Address
+              </label>
+              <input
+                type="text"
+                value={companyInfo.address}
+                onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter address (optional)"
+              />
+            </div>
           </div>
         </div>
 
@@ -438,9 +475,10 @@ export default function QuotationForm() {
         title="Quotation Preview"
         fullScreen={true}
       >
-        <div className="bg-white p-4">
-          <QuotationPDF data={quotationData} companyInfo={companyInfo} />
-        </div>
+        <PDFPreview 
+          pdfComponent={<QuotationPDF data={quotationData} companyInfo={companyInfo} />}
+          className="h-full"
+        />
       </PreviewModal>
     </div>
   );

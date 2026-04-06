@@ -81,8 +81,8 @@ const AboutPage: React.FC = () => {
   ];
 
   const stats = [
-    { number: '50+', label: 'Projects Completed' },
-    { number: '30+', label: 'Happy Clients' },
+    { number: '20+', label: 'Projects Completed' },
+    { number: '20+', label: 'Happy Clients' },
     { number: '5+', label: 'Years Experience' },
     { number: `${teamMembers.length}+`, label: 'Team Members' }
   ];

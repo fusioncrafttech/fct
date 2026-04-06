@@ -1,10 +1,5 @@
-import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import type { QuotationData } from '../../types/documents';
-
-Font.register({
-  family: 'Helvetica',
-  src: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-});
 
 const styles = StyleSheet.create({
   page: {

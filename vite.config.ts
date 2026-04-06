@@ -10,4 +10,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  define: {
+    global: 'globalThis',
+    Buffer: 'Buffer',
+  },
+  optimizeDeps: {
+    include: ['buffer', 'process'],
+  },
+  server: {
+    fs: {
+      allow: ['..'],
+    },
+  },
 })
