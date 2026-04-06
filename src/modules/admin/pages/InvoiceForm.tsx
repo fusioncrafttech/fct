@@ -3,13 +3,22 @@ import { Plus, Trash2, Download, Eye } from 'lucide-react';
 import { pdf } from '@react-pdf/renderer';
 import InvoicePDF from '../../../components/pdf/InvoicePDF';
 import PreviewModal from '../../../components/modals/PreviewModal';
-import { DocumentManager, defaultPaymentInstructions } from '../../../utils/documentUtils';
+import { DocumentManager, defaultPaymentInstructions, defaultNotes } from '../../../utils/documentUtils';
 import type { InvoiceData, InvoiceItem, ClientDetails } from '../../../types/documents';
 
 export default function InvoiceForm() {
   const [showPreview, setShowPreview] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [date, setDate] = useState('');
+  const [notes, setNotes] = useState(defaultNotes);
+
+  const [companyInfo, setCompanyInfo] = useState({
+    name: 'Fusioncrafttech',
+    phone: '+91 93601 21830',
+    email: 'fusioncrafttech@gmail.com',
+    website: 'www.fusioncrafttech.com',
+    address: '',
+  });
   const [taxPercentage, setTaxPercentage] = useState(18);
   const [client, setClient] = useState<ClientDetails>({
     name: '',
@@ -88,7 +97,7 @@ export default function InvoiceForm() {
       createdAt: new Date().toISOString(),
     };
 
-    const doc = <InvoicePDF data={invoiceData} />;
+    const doc = <InvoicePDF data={invoiceData} companyInfo={companyInfo} />;
     const blob = await pdf(doc).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -127,17 +136,47 @@ export default function InvoiceForm() {
           
           {/* From Section */}
           <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-start space-x-4">
               <img 
                 src="/FCT Logo.png" 
                 alt="Fusioncrafttech Logo" 
-                className="w-12 h-4 rounded"
+                className="w-12 h-4 rounded mt-1"
               />
-              <div>
-                <p className="font-bold text-gray-900">Fusioncrafttech</p>
-                <p className="text-sm text-gray-600">+91 93601 21830</p>
-                <p className="text-sm text-gray-600">fusioncrafttech@gmail.com</p>
-                <p className="text-sm text-gray-600">www.fusioncrafttech.com</p>
+              <div className="flex-1 space-y-2">
+                <input
+                  type="text"
+                  value={companyInfo.name}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
+                  className="font-bold text-gray-900 bg-transparent border-b border-transparent hover:border-green-300 focus:border-green-500 focus:outline-none text-sm w-full"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.phone}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-green-300 focus:border-green-500 focus:outline-none w-full"
+                  placeholder="Phone number"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.email}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-green-300 focus:border-green-500 focus:outline-none w-full"
+                  placeholder="Email address"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.website}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-green-300 focus:border-green-500 focus:outline-none w-full"
+                  placeholder="Website"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.address}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-green-300 focus:border-green-500 focus:outline-none w-full"
+                  placeholder="Address (optional)"
+                />
               </div>
             </div>
           </div>
@@ -396,7 +435,7 @@ export default function InvoiceForm() {
         fullScreen={true}
       >
         <div className="bg-white p-4">
-          <InvoicePDF data={invoiceData} />
+          <InvoicePDF data={invoiceData} companyInfo={companyInfo} />
         </div>
       </PreviewModal>
     </div>

@@ -216,9 +216,25 @@ const styles = StyleSheet.create({
 
 interface InvoicePDFProps {
   data: InvoiceData;
+  companyInfo?: {
+    name: string;
+    phone: string;
+    email: string;
+    website: string;
+    address: string;
+  };
 }
 
-export default function InvoicePDF({ data }: InvoicePDFProps) {
+export default function InvoicePDF({ data, companyInfo }: InvoicePDFProps) {
+  const defaultCompanyInfo = {
+    name: 'Fusioncrafttech',
+    phone: '+91 93601 21830',
+    email: 'fusioncrafttech@gmail.com',
+    website: 'www.fusioncrafttech.com',
+    address: '',
+  };
+
+  const company = companyInfo || defaultCompanyInfo;
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -228,10 +244,13 @@ export default function InvoicePDF({ data }: InvoicePDFProps) {
             {/* From Section */}
             <View style={styles.fromSection}>
               <Image src="/FCT Logo.png" style={styles.logo} />
-              <Text style={styles.companyName}>Fusioncrafttech</Text>
-              <Text style={styles.companyContact}>+91 93601 21830</Text>
-              <Text style={styles.companyContact}>fusioncrafttech@gmail.com</Text>
-              <Text style={styles.companyContact}>www.fusioncrafttech.com</Text>
+              <Text style={styles.companyName}>{company.name}</Text>
+              <Text style={styles.companyContact}>{company.phone}</Text>
+              <Text style={styles.companyContact}>{company.email}</Text>
+              <Text style={styles.companyContact}>{company.website}</Text>
+              {company.address && (
+                <Text style={styles.companyContact}>{company.address}</Text>
+              )}
             </View>
             
             {/* Document Info */}

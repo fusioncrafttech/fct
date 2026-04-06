@@ -30,6 +30,14 @@ export default function QuotationForm() {
   const [terms, setTerms] = useState(defaultTerms);
   const [notes, setNotes] = useState(defaultNotes);
 
+  const [companyInfo, setCompanyInfo] = useState({
+    name: 'Fusioncrafttech',
+    phone: '+91 93601 21830',
+    email: 'fusioncrafttech@gmail.com',
+    website: 'www.fusioncrafttech.com',
+    address: '',
+  });
+
   useEffect(() => {
     setQuotationNumber(DocumentManager.generateQuotationNumber());
     setDate(DocumentManager.getCurrentDate());
@@ -90,7 +98,7 @@ export default function QuotationForm() {
       createdAt: new Date().toISOString(),
     };
 
-    const doc = <QuotationPDF data={quotationData} />;
+    const doc = <QuotationPDF data={quotationData} companyInfo={companyInfo} />;
     const blob = await pdf(doc).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -129,17 +137,47 @@ export default function QuotationForm() {
           
           {/* From Section */}
           <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-start space-x-4">
               <img 
                 src="/FCT Logo.png" 
                 alt="Fusioncrafttech Logo" 
-                className="w-12 h-4 rounded"
+                className="w-12 h-4 rounded mt-1"
               />
-              <div>
-                <p className="font-bold text-gray-900">Fusioncrafttech</p>
-                <p className="text-sm text-gray-600">+91 93601 21830</p>
-                <p className="text-sm text-gray-600">fusioncrafttech@gmail.com</p>
-                <p className="text-sm text-gray-600">www.fusioncrafttech.com</p>
+              <div className="flex-1 space-y-2">
+                <input
+                  type="text"
+                  value={companyInfo.name}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
+                  className="font-bold text-gray-900 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none text-sm w-full"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.phone}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
+                  placeholder="Phone number"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.email}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
+                  placeholder="Email address"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.website}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
+                  placeholder="Website"
+                />
+                <input
+                  type="text"
+                  value={companyInfo.address}
+                  onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
+                  className="text-sm text-gray-600 bg-transparent border-b border-transparent hover:border-blue-300 focus:border-blue-500 focus:outline-none w-full"
+                  placeholder="Address (optional)"
+                />
               </div>
             </div>
           </div>
@@ -401,7 +439,7 @@ export default function QuotationForm() {
         fullScreen={true}
       >
         <div className="bg-white p-4">
-          <QuotationPDF data={quotationData} />
+          <QuotationPDF data={quotationData} companyInfo={companyInfo} />
         </div>
       </PreviewModal>
     </div>
