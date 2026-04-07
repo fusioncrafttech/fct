@@ -135,6 +135,17 @@ export interface ToolkitItem {
   created_at?: string
 }
 
+export interface Slideshow {
+  id?: string
+  title: string
+  description?: string
+  image: string
+  sort_order?: number
+  is_active?: boolean
+  created_at?: string
+  updated_at?: string
+}
+
 export interface ToolkitStats {
   total_items: number
   active_items: number

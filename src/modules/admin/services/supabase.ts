@@ -1,5 +1,5 @@
 import { supabase } from '../../../services/supabase';
-import type { Service, Project, ContactMessage, Testimonial, DashboardStats } from '@/types/global';
+import type { Service, Project, ContactMessage, Testimonial, DashboardStats, Slideshow } from '@/types/global';
 
 // Services CRUD
 export const servicesService = {
@@ -185,6 +185,56 @@ export const testimonialsService = {
       .eq('id', id);
     
     if (error) throw error;
+  }
+};
+
+// Slideshow CRUD
+export const slideshowService = {
+  async getAll(): Promise<Slideshow[]> {
+    const { data, error } = await supabase
+      .from('slideshow')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async create(slideshow: Omit<Slideshow, 'id' | 'created_at' | 'updated_at'>): Promise<Slideshow> {
+    const { data, error } = await supabase
+      .from('slideshow')
+      .insert(slideshow)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async update(id: string, slideshow: Partial<Slideshow>): Promise<Slideshow> {
+    const { data, error } = await supabase
+      .from('slideshow')
+      .update({ ...slideshow, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  async delete(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('slideshow')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  },
+
+  async toggleActive(id: string, isActive: boolean): Promise<Slideshow> {
+    return this.update(id, { is_active: isActive });
   }
 };
 
