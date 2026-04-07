@@ -52,10 +52,14 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
 
   if (loading) {
     return (
-      <div className={`w-full h-64 sm:h-80 md:h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl flex items-center justify-center ${className}`}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500 dark:text-gray-400">Loading slideshow...</p>
+      <div className={`relative w-full rounded-2xl overflow-hidden ${className}`}>
+        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+          <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-500 dark:text-gray-400">Loading slideshow...</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -63,61 +67,68 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
 
   if (!slides || slides.length === 0) {
     return (
-      <div className={`w-full h-64 sm:h-80 md:h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl flex items-center justify-center ${className}`}>
-        <p className="text-gray-500 dark:text-gray-400">No slides available</p>
+      <div className={`relative w-full rounded-2xl overflow-hidden ${className}`}>
+        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+          <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <p className="text-gray-500 dark:text-gray-400">No slides available</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`relative w-full h-64 sm:h-80 md:h-96 lg:h-[450px] rounded-2xl overflow-hidden ${className}`}>
-      {/* Main Image */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          {slides && slides[currentSlide] && slides[currentSlide].image ? (
-            <img
-              src={slides[currentSlide].image}
-              alt={slides[currentSlide].title || 'Slide image'}
-              className="w-full h-full object-contain sm:object-cover"
-              style={{
-                objectPosition: 'center',
-                backgroundColor: '#f3f4f6'
-              }}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = 'https://via.placeholder.com/800x600/f3f4f6/6b7280?text=Image+Not+Available';
-              }}
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-              <p className="text-gray-500 dark:text-gray-400">Image not available</p>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          
-          {/* Slide Content */}
+    <div className={`relative w-full rounded-2xl overflow-hidden ${className}`}>
+      {/* 16:9 Aspect Ratio Container */}
+      <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        {/* Main Image */}
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 text-white"
+            key={currentSlide}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute inset-0"
           >
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2">
-              {slides[currentSlide]?.title || 'Untitled'}
-            </h3>
-            <p className="text-xs sm:text-sm lg:text-base text-gray-200 max-w-2xl">
-              {slides[currentSlide]?.description || ''}
-            </p>
+            {slides && slides[currentSlide] && slides[currentSlide].image ? (
+              <img
+                src={slides[currentSlide].image}
+                alt={slides[currentSlide].title || 'Slide image'}
+                className="w-full h-full object-cover"
+                style={{
+                  objectPosition: 'center',
+                  backgroundColor: '#f3f4f6'
+                }}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'https://via.placeholder.com/1920x1080/f3f4f6/6b7280?text=Image+Not+Available';
+                }}
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <p className="text-gray-500 dark:text-gray-400">Image not available</p>
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            
+            {/* Slide Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 text-white"
+            >
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2">
+                {slides[currentSlide]?.title || 'Untitled'}
+              </h3>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-200 max-w-2xl">
+                {slides[currentSlide]?.description || ''}
+              </p>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
 
       {/* Navigation Arrows */}
       {slides.length > 1 && (

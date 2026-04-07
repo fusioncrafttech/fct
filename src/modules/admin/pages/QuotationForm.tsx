@@ -131,126 +131,135 @@ export default function QuotationForm() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Create Quotation</h1>
-          
-          {/* Desktop buttons - hidden on mobile */}
-          <div className="hidden lg:flex space-x-3">
-            <button
-              onClick={previewPDF}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Preview PDF
-            </button>
-            <button
-              onClick={generatePDF}
-              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download PDF
-            </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4 py-6 md:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Create Quotation</h1>
+              <p className="text-gray-600 text-sm md:text-base">Generate professional quotations for your clients</p>
+            </div>
+            
+            {/* Desktop buttons - hidden on mobile */}
+            <div className="hidden lg:flex space-x-3">
+              <button
+                onClick={previewPDF}
+                className="flex items-center px-5 py-2.5 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Preview PDF
+              </button>
+              <button
+                onClick={generatePDF}
+                className="flex items-center px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download PDF
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Document Header */}
-        <div className="flex justify-center mb-8">
-          <img 
-            src="/FCT Logo.png" 
-            alt="Fusioncrafttech Logo" 
-            className="w-24 h-8 object-contain"
-          />
+          {/* Document Header */}
+          <div className="flex justify-center mt-8 mb-6">
+            <img 
+              src="/FCT Logo.png" 
+              alt="Fusioncrafttech Logo" 
+              className="w-32 h-10 object-contain"
+            />
+          </div>
         </div>
 
         {/* Document Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quotation Number
-            </label>
-            <input
-              type="text"
-              value={quotationNumber}
-              readOnly
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quotation Date
-            </label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Document Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Quotation Number
+              </label>
+              <input
+                type="text"
+                value={quotationNumber}
+                readOnly
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-700 font-medium"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Quotation Date
+              </label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              />
+            </div>
           </div>
         </div>
 
         {/* From Details */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">From Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">From Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Company Name
               </label>
               <input
                 type="text"
                 value={companyInfo.name}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter company name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Phone
               </label>
               <input
                 type="tel"
                 value={companyInfo.phone}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter phone number"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Email
               </label>
               <input
                 type="email"
                 value={companyInfo.email}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter email address"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Website
               </label>
               <input
                 type="url"
                 value={companyInfo.website}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter website URL"
               />
             </div>
             <div className="md:col-span-2 lg:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Address
               </label>
               <input
                 type="text"
                 value={companyInfo.address}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter address (optional)"
               />
             </div>
@@ -258,66 +267,66 @@ export default function QuotationForm() {
         </div>
 
         {/* Client Details */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Client Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Client Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Client Name *
               </label>
               <input
                 type="text"
                 value={client.name}
                 onChange={(e) => updateClient('name', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter client name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Company Name
               </label>
               <input
                 type="text"
                 value={client.company}
                 onChange={(e) => updateClient('company', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter company name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Phone *
               </label>
               <input
                 type="tel"
                 value={client.phone}
                 onChange={(e) => updateClient('phone', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter phone number"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Email *
               </label>
               <input
                 type="email"
                 value={client.email}
                 onChange={(e) => updateClient('email', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter email address"
               />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Address
               </label>
               <textarea
                 value={client.address}
                 onChange={(e) => updateClient('address', e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
                 placeholder="Enter client address"
               />
             </div>
@@ -325,156 +334,165 @@ export default function QuotationForm() {
         </div>
 
         {/* Services Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Services</h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Services</h2>
             <button
               onClick={addService}
-              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center px-4 py-2.5 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Service
             </button>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">Service Name</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">Description</th>
-                  <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 border border-gray-200">Quantity</th>
-                  <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 border border-gray-200">Rate (₹)</th>
-                  <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 border border-gray-200">Amount (₹)</th>
-                  <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 border border-gray-200">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {services.map((service) => (
-                  <tr key={service.id}>
-                    <td className="px-4 py-3 border border-gray-200">
-                      <input
-                        type="text"
-                        value={service.name}
-                        onChange={(e) => updateService(service.id, 'name', e.target.value)}
-                        className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Service name"
-                      />
-                    </td>
-                    <td className="px-4 py-3 border border-gray-200">
-                      <input
-                        type="text"
-                        value={service.description}
-                        onChange={(e) => updateService(service.id, 'description', e.target.value)}
-                        className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Description"
-                      />
-                    </td>
-                    <td className="px-4 py-3 border border-gray-200">
+          {/* Mobile-friendly service cards */}
+          <div className="space-y-4">
+            {services.map((service, index) => (
+              <div key={service.id} className="border border-gray-200 rounded-xl p-4 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-gray-700">Service {index + 1}</h3>
+                  <button
+                    onClick={() => removeService(service.id)}
+                    className="text-red-600 hover:text-red-800 transition-colors p-1"
+                    disabled={services.length === 1}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Service Name
+                    </label>
+                    <input
+                      type="text"
+                      value={service.name}
+                      onChange={(e) => updateService(service.id, 'name', e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                      placeholder="Service name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Description
+                    </label>
+                    <input
+                      type="text"
+                      value={service.description}
+                      onChange={(e) => updateService(service.id, 'description', e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                      placeholder="Description"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                        Quantity
+                      </label>
                       <input
                         type="number"
                         value={service.quantity}
                         onChange={(e) => updateService(service.id, 'quantity', parseInt(e.target.value) || 0)}
-                        className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent text-center"
+                        className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all text-center"
                         min="1"
                       />
-                    </td>
-                    <td className="px-4 py-3 border border-gray-200">
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                        Rate (₹)
+                      </label>
                       <input
                         type="number"
                         value={service.rate}
                         onChange={(e) => updateService(service.id, 'rate', parseFloat(e.target.value) || 0)}
-                        className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent text-center"
+                        className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all text-center"
                         min="0"
                         step="0.01"
                       />
-                    </td>
-                    <td className="px-4 py-3 border border-gray-200 text-center font-medium">
-                      {service.amount.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 border border-gray-200 text-center">
-                      <button
-                        onClick={() => removeService(service.id)}
-                        className="text-red-600 hover:text-red-800 transition-colors"
-                        disabled={services.length === 1}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">
+                        Amount (₹)
+                      </label>
+                      <div className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-center font-medium text-gray-700">
+                        {service.amount.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Totals Section */}
-        <div className="mb-8">
-          <div className="bg-gray-50 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Totals</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal:</span>
-                  <span className="font-medium">₹{subtotal.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">CGST (9%):</span>
-                  <span className="font-medium">₹{cgst.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">SGST (9%):</span>
-                  <span className="font-medium">₹{sgst.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t">
-                  <span>Grand Total:</span>
-                  <span>₹{grandTotal.toLocaleString()}</span>
-                </div>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Totals</h2>
+          <div className="bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl p-6">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm font-medium">Subtotal:</span>
+                <span className="font-semibold text-gray-900">₹{subtotal.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm font-medium">CGST (9%):</span>
+                <span className="font-semibold text-gray-900">₹{cgst.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 text-sm font-medium">SGST (9%):</span>
+                <span className="font-semibold text-gray-900">₹{sgst.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center pt-3 border-t border-gray-200">
+                <span className="text-lg font-bold text-gray-900">Grand Total:</span>
+                <span className="text-xl font-bold text-emerald-600">₹{grandTotal.toLocaleString()}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Terms and Notes */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Terms and Conditions
-            </label>
-            <textarea
-              value={terms}
-              onChange={(e) => setTerms(e.target.value)}
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Additional Notes
-            </label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-20">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Additional Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Terms and Conditions
+              </label>
+              <textarea
+                value={terms}
+                onChange={(e) => setTerms(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Additional Notes
+              </label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mobile buttons - shown only on mobile */}
-      <div className="lg:hidden bg-white rounded-lg shadow-lg p-6 mt-4">
+      {/* Mobile buttons - sticky bottom action bar */}
+      <div className="lg:hidden sticky bottom-0 bg-white border-t border-gray-200 p-4 shadow-lg">
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={previewPDF}
-            className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
+            className="flex items-center justify-center px-4 py-3 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium w-full sm:w-auto"
           >
             <Eye className="w-4 h-4 mr-2" />
             Preview PDF
           </button>
           <button
             onClick={generatePDF}
-            className="flex items-center justify-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-full sm:w-auto"
+            className="flex items-center justify-center px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium w-full sm:w-auto"
           >
             <Download className="w-4 h-4 mr-2" />
             Download PDF
@@ -494,6 +512,7 @@ export default function QuotationForm() {
           className="h-full"
         />
       </PreviewModal>
+      </div>
     </div>
   );
 }

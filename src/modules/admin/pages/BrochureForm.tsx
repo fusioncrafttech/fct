@@ -410,117 +410,126 @@ export default function BrochureForm() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Create Brochure</h1>
-          
-          {/* Desktop buttons - hidden on mobile */}
-          <div className="hidden lg:flex space-x-3">
-            <button
-              onClick={previewPDF}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Preview PDF
-            </button>
-            <button
-              onClick={generatePDF}
-              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download PDF
-            </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4 py-6 md:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Create Brochure</h1>
+              <p className="text-gray-600 text-sm md:text-base">Generate professional marketing brochures for your services</p>
+            </div>
+            
+            {/* Desktop buttons - hidden on mobile */}
+            <div className="hidden lg:flex space-x-3">
+              <button
+                onClick={previewPDF}
+                className="flex items-center px-5 py-2.5 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Preview PDF
+              </button>
+              <button
+                onClick={generatePDF}
+                className="flex items-center px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download PDF
+              </button>
+            </div>
+          </div>
+
+          {/* Document Header */}
+          <div className="flex justify-center mt-8 mb-6">
+            <img 
+              src="/FCT Logo.png" 
+              alt="Fusioncrafttech Logo" 
+              className="w-32 h-10 object-contain"
+            />
           </div>
         </div>
 
-        {/* Document Header */}
-        <div className="flex justify-center mb-8">
-          <img 
-            src="/FCT Logo.png" 
-            alt="Fusioncrafttech Logo" 
-            className="w-24 h-8 object-contain"
-          />
-        </div>
-
         {/* Template Selection */}
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select Brochure Template
-          </label>
-          <select
-            value={selectedTemplate}
-            onChange={(e) => setSelectedTemplate(e.target.value as keyof typeof brochureTemplates)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="company-profile">Company Profile Brochure</option>
-            <option value="website-package">Website Development Package</option>
-            <option value="digital-marketing">Digital Marketing Services</option>
-            <option value="startup-package">Startup Offer Package</option>
-          </select>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Brochure Template</h2>
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-2">
+              Select Brochure Template
+            </label>
+            <select
+              value={selectedTemplate}
+              onChange={(e) => setSelectedTemplate(e.target.value as keyof typeof brochureTemplates)}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+            >
+              <option value="company-profile">Company Profile Brochure</option>
+              <option value="website-package">Website Development Package</option>
+              <option value="digital-marketing">Digital Marketing Services</option>
+              <option value="startup-package">Startup Offer Package</option>
+            </select>
+          </div>
         </div>
 
         {/* From Details */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">From Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">From Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Company Name
               </label>
               <input
                 type="text"
                 value={companyInfo.name}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter company name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Phone
               </label>
               <input
                 type="tel"
                 value={companyInfo.phone}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter phone number"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Email
               </label>
               <input
                 type="email"
                 value={companyInfo.email}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter email address"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Website
               </label>
               <input
                 type="url"
                 value={companyInfo.website}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, website: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter website URL"
               />
             </div>
             <div className="md:col-span-2 lg:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Address
               </label>
               <input
                 type="text"
                 value={companyInfo.address}
                 onChange={(e) => setCompanyInfo({ ...companyInfo, address: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                 placeholder="Enter address (optional)"
               />
             </div>
@@ -528,56 +537,61 @@ export default function BrochureForm() {
         </div>
 
         {/* Basic Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title
-            </label>
-            <input
-              type="text"
-              value={brochureData.title}
-              onChange={(e) => updateBrochureData('title', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Subtitle
-            </label>
-            <input
-              type="text"
-              value={brochureData.subtitle}
-              onChange={(e) => updateBrochureData('subtitle', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Basic Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                value={brochureData.title}
+                onChange={(e) => updateBrochureData('title', e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Subtitle
+              </label>
+              <input
+                type="text"
+                value={brochureData.subtitle}
+                onChange={(e) => updateBrochureData('subtitle', e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              />
+            </div>
           </div>
         </div>
 
         {/* Services Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Services</h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Services</h2>
             <button
               onClick={addService}
-              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center px-4 py-2.5 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Service
             </button>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {brochureData.services.map((service, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  value={service}
-                  onChange={(e) => updateService(index, e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter service name"
-                />
+              <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-xl bg-gray-50">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    value={service}
+                    onChange={(e) => updateService(index, e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all bg-white"
+                    placeholder="Enter service name"
+                  />
+                </div>
                 <button
                   onClick={() => removeService(index)}
-                  className="text-red-600 hover:text-red-800 transition-colors"
+                  className="text-red-600 hover:text-red-800 transition-colors p-2"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -587,12 +601,12 @@ export default function BrochureForm() {
         </div>
 
         {/* Pricing Packages */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Pricing Packages</h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Pricing Packages</h2>
             <button
               onClick={addPricingPackage}
-              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center px-4 py-2.5 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Package
@@ -600,73 +614,75 @@ export default function BrochureForm() {
           </div>
           <div className="space-y-6">
             {brochureData.pricingPackages.map((pkg, pkgIndex) => (
-              <div key={pkgIndex} className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-4">
+              <div key={pkgIndex} className="border border-gray-200 rounded-xl p-6 bg-gradient-to-br from-gray-50 to-white">
+                <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-medium text-gray-900">Package {pkgIndex + 1}</h3>
                   <button
                     onClick={() => removePricingPackage(pkgIndex)}
-                    className="text-red-600 hover:text-red-800 transition-colors"
+                    className="text-red-600 hover:text-red-800 transition-colors p-2"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Package Name
-                    </label>
-                    <input
-                      type="text"
-                      value={pkg.name}
-                      onChange={(e) => updatePricingPackage(pkgIndex, 'name', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Package name"
-                    />
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Package Name
+                      </label>
+                      <input
+                        type="text"
+                        value={pkg.name}
+                        onChange={(e) => updatePricingPackage(pkgIndex, 'name', e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                        placeholder="Package name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Price
+                      </label>
+                      <input
+                        type="text"
+                        value={pkg.price}
+                        onChange={(e) => updatePricingPackage(pkgIndex, 'price', e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                        placeholder="Price"
+                      />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Price
-                    </label>
-                    <input
-                      type="text"
-                      value={pkg.price}
-                      onChange={(e) => updatePricingPackage(pkgIndex, 'price', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Price"
-                    />
-                  </div>
-                </div>
-                <div className="mb-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Features
-                    </label>
-                    <button
-                      onClick={() => addPackageFeature(pkgIndex)}
-                      className="text-blue-600 hover:text-blue-800 transition-colors text-sm"
-                    >
-                      <Plus className="w-3 h-3 inline mr-1" />
-                      Add Feature
-                    </button>
-                  </div>
-                  <div className="space-y-2">
-                    {pkg.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center space-x-2">
-                        <input
-                          type="text"
-                          value={feature}
-                          onChange={(e) => updatePackageFeature(pkgIndex, featureIndex, e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          placeholder="Feature description"
-                        />
-                        <button
-                          onClick={() => removePackageFeature(pkgIndex, featureIndex)}
-                          className="text-red-600 hover:text-red-800 transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block text-sm font-medium text-gray-600">
+                        Features
+                      </label>
+                      <button
+                        onClick={() => addPackageFeature(pkgIndex)}
+                        className="text-cyan-600 hover:text-cyan-800 transition-colors text-sm font-medium flex items-center gap-1"
+                      >
+                        <Plus className="w-3 h-3" />
+                        Add Feature
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {pkg.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-center gap-3">
+                          <input
+                            type="text"
+                            value={feature}
+                            onChange={(e) => updatePackageFeature(pkgIndex, featureIndex, e.target.value)}
+                            className="flex-1 px-3 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                            placeholder="Feature description"
+                          />
+                          <button
+                            onClick={() => removePackageFeature(pkgIndex, featureIndex)}
+                            className="text-red-600 hover:text-red-800 transition-colors p-1"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -675,72 +691,70 @@ export default function BrochureForm() {
         </div>
 
         {/* Company Description */}
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Company Description
-          </label>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Company Description</h2>
           <textarea
             value={brochureData.companyDescription}
             onChange={(e) => updateBrochureData('companyDescription', e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
           />
         </div>
 
         {/* Contact Information */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Contact Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 mb-20">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Website
               </label>
               <input
                 type="text"
                 value={brochureData.contact.website}
                 onChange={(e) => updateContact('website', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Email
               </label>
               <input
                 type="email"
                 value={brochureData.contact.email}
                 onChange={(e) => updateContact('email', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Phone
               </label>
               <input
                 type="tel"
                 value={brochureData.contact.phone}
                 onChange={(e) => updateContact('phone', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile buttons - shown only on mobile */}
-      <div className="lg:hidden bg-white rounded-lg shadow-lg p-6 mt-4">
+      {/* Mobile buttons - sticky bottom action bar */}
+      <div className="lg:hidden sticky bottom-0 bg-white border-t border-gray-200 p-4 shadow-lg">
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={previewPDF}
-            className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
+            className="flex items-center justify-center px-4 py-3 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition-colors font-medium w-full sm:w-auto"
           >
             <Eye className="w-4 h-4 mr-2" />
             Preview PDF
           </button>
           <button
             onClick={generatePDF}
-            className="flex items-center justify-center px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-full sm:w-auto"
+            className="flex items-center justify-center px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium w-full sm:w-auto"
           >
             <Download className="w-4 h-4 mr-2" />
             Download PDF

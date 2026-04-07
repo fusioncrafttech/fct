@@ -21,9 +21,21 @@ const HomePage: React.FC = () => {
   const [slideshowSlides, setSlideshowSlides] = useState<Slide[]>([
     {
       id: 1,
-      image: 'https://via.placeholder.com/800x600/3b82f6/ffffff?text=Welcome+to+Fusioncrafttech',
-      title: 'Welcome to Fusioncrafttech',
-      description: 'Premium Development Solutions'
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&h=1080&fit=crop&crop=center&auto=format',
+      title: 'Web Development',
+      description: 'Modern, responsive web applications built with cutting-edge technologies'
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1920&h=1080&fit=crop&crop=center&auto=format',
+      title: 'Mobile Solutions',
+      description: 'Native and cross-platform mobile apps for iOS and Android'
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1559028012-c72e03b6c9c0?w=1920&h=1080&fit=crop&crop=center&auto=format',
+      title: 'Cloud Architecture',
+      description: 'Scalable cloud solutions and infrastructure management'
     }
   ]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
@@ -65,18 +77,22 @@ const HomePage: React.FC = () => {
       const data = await slideshowService.getAll();
       console.log('Raw slideshow data:', data);
       
-      // Transform Slideshow data to match Slide interface expected by ImageSlideshow
-      const transformedSlides = (data || []).map((slide, index) => ({
-        id: index + 1, // Convert to number as expected by Slide interface
-        image: slide.image,
-        title: slide.title,
-        description: slide.description || ''
-      }));
-      console.log('Transformed slides:', transformedSlides);
-      setSlideshowSlides(transformedSlides);
+      // Only replace default slides if there's actual data from API
+      if (data && data.length > 0) {
+        // Transform Slideshow data to match Slide interface expected by ImageSlideshow
+        const transformedSlides = data.map((slide, index) => ({
+          id: index + 1, // Convert to number as expected by Slide interface
+          image: slide.image,
+          title: slide.title,
+          description: slide.description || ''
+        }));
+        console.log('Transformed slides:', transformedSlides);
+        setSlideshowSlides(transformedSlides);
+      }
+      // If no data, keep the beautiful default slides
     } catch (error) {
       console.error('Failed to fetch slideshow:', error);
-      setSlideshowSlides([]);
+      // Keep default slides on error
     }
   };
 
