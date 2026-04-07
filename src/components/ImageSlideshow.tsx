@@ -14,39 +14,54 @@ interface ImageSlideshowProps {
   autoPlay?: boolean;
   interval?: number;
   className?: string;
+  loading?: boolean;
 }
 
 const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
   slides,
   autoPlay = true,
   interval = 5000,
-  className = ''
+  className = '',
+  loading = false
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay || !slides || slides.length === 0) return;
 
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [autoPlay, interval, slides.length]);
+  }, [autoPlay, interval, slides?.length]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
 
   const goToPrevious = () => {
+    if (!slides || slides.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   const goToNext = () => {
+    if (!slides || slides.length === 0) return;
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
-  if (slides.length === 0) {
+  if (loading) {
+    return (
+      <div className={`w-full h-64 sm:h-80 md:h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl flex items-center justify-center ${className}`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-500 dark:text-gray-400">Loading slideshow...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!slides || slides.length === 0) {
     return (
       <div className={`w-full h-64 sm:h-80 md:h-96 bg-gray-200 dark:bg-gray-700 rounded-2xl flex items-center justify-center ${className}`}>
         <p className="text-gray-500 dark:text-gray-400">No slides available</p>
@@ -66,11 +81,25 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="absolute inset-0"
         >
-          <img
-            src={slides[currentSlide].image}
-            alt={slides[currentSlide].title}
-            className="w-full h-full object-cover"
-          />
+          {slides && slides[currentSlide] && slides[currentSlide].image ? (
+            <img
+              src={slides[currentSlide].image}
+              alt={slides[currentSlide].title || 'Slide image'}
+              className="w-full h-full object-contain sm:object-cover"
+              style={{
+                objectPosition: 'center',
+                backgroundColor: '#f3f4f6'
+              }}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = 'https://via.placeholder.com/800x600/f3f4f6/6b7280?text=Image+Not+Available';
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <p className="text-gray-500 dark:text-gray-400">Image not available</p>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           {/* Slide Content */}
@@ -81,10 +110,10 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
             className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8 text-white"
           >
             <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2">
-              {slides[currentSlide].title}
+              {slides[currentSlide]?.title || 'Untitled'}
             </h3>
             <p className="text-xs sm:text-sm lg:text-base text-gray-200 max-w-2xl">
-              {slides[currentSlide].description}
+              {slides[currentSlide]?.description || ''}
             </p>
           </motion.div>
         </motion.div>

@@ -18,7 +18,14 @@ interface Slide {
 const HomePage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [slideshowSlides, setSlideshowSlides] = useState<Slide[]>([]);
+  const [slideshowSlides, setSlideshowSlides] = useState<Slide[]>([
+    {
+      id: 1,
+      image: 'https://via.placeholder.com/800x600/3b82f6/ffffff?text=Welcome+to+Fusioncrafttech',
+      title: 'Welcome to Fusioncrafttech',
+      description: 'Premium Development Solutions'
+    }
+  ]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
@@ -56,6 +63,8 @@ const HomePage: React.FC = () => {
   const fetchSlideshow = async () => {
     try {
       const data = await slideshowService.getAll();
+      console.log('Raw slideshow data:', data);
+      
       // Transform Slideshow data to match Slide interface expected by ImageSlideshow
       const transformedSlides = (data || []).map((slide, index) => ({
         id: index + 1, // Convert to number as expected by Slide interface
@@ -63,6 +72,7 @@ const HomePage: React.FC = () => {
         title: slide.title,
         description: slide.description || ''
       }));
+      console.log('Transformed slides:', transformedSlides);
       setSlideshowSlides(transformedSlides);
     } catch (error) {
       console.error('Failed to fetch slideshow:', error);
