@@ -15,41 +15,7 @@ interface Slide {
 }
 
 const HomePage: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: '1',
-      title: 'E-Commerce Platform',
-      description: 'A modern, scalable e-commerce solution with real-time inventory management and secure payment processing.',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=225&fit=crop&crop=center&auto=format',
-      tech_stack: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      category: 'Web Development',
-      featured: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: '2',
-      title: 'Mobile Banking App',
-      description: 'Secure and intuitive mobile banking application with biometric authentication and real-time transactions.',
-      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=225&fit=crop&crop=center&auto=format',
-      tech_stack: ['React Native', 'Firebase', 'Node.js', 'JWT'],
-      category: 'Mobile Development',
-      featured: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: '3',
-      title: 'Analytics Dashboard',
-      description: 'Comprehensive business analytics dashboard with real-time data visualization and reporting capabilities.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop&crop=center&auto=format',
-      tech_stack: ['Vue.js', 'Python', 'PostgreSQL', 'D3.js'],
-      category: 'Data Analytics',
-      featured: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }
-  ]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [slideshowSlides, setSlideshowSlides] = useState<Slide[]>([
     {
