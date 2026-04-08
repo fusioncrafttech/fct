@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Code, Zap, Shield, Globe, Monitor, Smartphone, Palette, Cloud, Edit3 } from 'lucide-react';
 import { projectsService, testimonialsService, slideshowService } from '../../admin/services/supabase';
 import type { Project, Testimonial } from '@/types/global';
-import ReviewForm from '../../../components/ReviewForm';
 import ImageSlideshow from '../../../components/ImageSlideshow';
 
 // Define Slide interface to match ImageSlideshow component expectations
@@ -16,7 +15,41 @@ interface Slide {
 }
 
 const HomePage: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>([
+    {
+      id: '1',
+      title: 'E-Commerce Platform',
+      description: 'A modern, scalable e-commerce solution with real-time inventory management and secure payment processing.',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=225&fit=crop&crop=center&auto=format',
+      tech_stack: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      category: 'Web Development',
+      featured: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '2',
+      title: 'Mobile Banking App',
+      description: 'Secure and intuitive mobile banking application with biometric authentication and real-time transactions.',
+      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=225&fit=crop&crop=center&auto=format',
+      tech_stack: ['React Native', 'Firebase', 'Node.js', 'JWT'],
+      category: 'Mobile Development',
+      featured: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '3',
+      title: 'Analytics Dashboard',
+      description: 'Comprehensive business analytics dashboard with real-time data visualization and reporting capabilities.',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=225&fit=crop&crop=center&auto=format',
+      tech_stack: ['Vue.js', 'Python', 'PostgreSQL', 'D3.js'],
+      category: 'Data Analytics',
+      featured: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+  ]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [slideshowSlides, setSlideshowSlides] = useState<Slide[]>([
     {
@@ -39,7 +72,6 @@ const HomePage: React.FC = () => {
     }
   ]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
-  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -96,11 +128,7 @@ const HomePage: React.FC = () => {
     }
   };
 
-  const handleReviewSubmit = () => {
-    // Refresh testimonials after a new review is submitted
-    fetchTestimonials();
-  };
-  const features = [
+    const features = [
     {
       icon: Code,
       title: 'Clean Code',
@@ -474,13 +502,13 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-6"
             >
-              <button
-                onClick={() => setIsReviewFormOpen(true)}
+              <Link
+                to="/review"
                 className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg border border-blue-600 hover:border-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Write a Review
-              </button>
+              </Link>
             </motion.div>
           </motion.div>
 
@@ -570,13 +598,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Review Form Modal */}
-      <ReviewForm
-        isOpen={isReviewFormOpen}
-        onClose={() => setIsReviewFormOpen(false)}
-        onSubmit={handleReviewSubmit}
-      />
-
+      
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

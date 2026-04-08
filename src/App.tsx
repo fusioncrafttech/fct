@@ -16,6 +16,7 @@ const ServicesPage = lazy(() => import('./modules/portfolio/pages/ServicesPage')
 const ProjectsPage = lazy(() => import('./modules/portfolio/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('./modules/portfolio/pages/ProjectDetailPage'));
 const ContactPage = lazy(() => import('./modules/portfolio/pages/ContactPage'));
+const ReviewPage = lazy(() => import('./pages/Review'));
 
 // Auth Pages
 const LoginPage = lazy(() => import('./routes/auth/LoginPage'));
@@ -100,6 +101,7 @@ function App() {
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="projects/:id" element={<ProjectDetailPage />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="review" element={<ReviewPage />} />
             </Route>
 
             {/* Authentication Routes */}

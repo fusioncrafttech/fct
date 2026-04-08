@@ -25,11 +25,13 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
   loading = false
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
   useEffect(() => {
     if (!autoPlay || !slides || slides.length === 0) return;
 
     const timer = setInterval(() => {
+      setDirection(1);
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, interval);
 
@@ -37,16 +39,19 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
   }, [autoPlay, interval, slides?.length]);
 
   const goToSlide = (index: number) => {
+    setDirection(index > currentSlide ? 1 : -1);
     setCurrentSlide(index);
   };
 
   const goToPrevious = () => {
     if (!slides || slides.length === 0) return;
+    setDirection(-1);
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   const goToNext = () => {
     if (!slides || slides.length === 0) return;
+    setDirection(1);
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
@@ -85,9 +90,9 @@ const ImageSlideshow: React.FC<ImageSlideshowProps> = ({
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, x: 100 }}
+            initial={{ opacity: 0, x: direction > 0 ? 100 : -100 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
+            exit={{ opacity: 0, x: direction > 0 ? -100 : 100 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="absolute inset-0"
           >
