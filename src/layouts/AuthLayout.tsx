@@ -23,9 +23,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitle }) =>
         <div className="flex justify-center mb-8">
           <Link to="/" className="flex items-center space-x-2">
             <img 
-              src="/FCT Logo.png" 
+              src="/FCT Logo.webp" 
               alt="Fusioncrafttech Logo" 
               className="w-10 h-10 rounded-lg"
+              loading="eager"
             />
             <span className="text-2xl font-bold gradient-text">Fusioncrafttech</span>
           </Link>

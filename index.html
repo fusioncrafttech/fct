@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/FCT Logo.png" />
+    <link rel="icon" type="image/webp" href="/FCT Logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags -->
@@ -19,7 +19,7 @@
     <meta property="og:url" content="https://fusioncrafttech.com/" />
     <meta property="og:title" content="Fusioncrafttech - Premium Full Stack Development Solutions" />
     <meta property="og:description" content="Modern scalable web applications for startups and businesses. Transform your ideas into powerful digital experiences." />
-    <meta property="og:image" content="https://fusioncrafttech.com/FCT%20Logo.png" />
+    <meta property="og:image" content="https://fusioncrafttech.com/FCT%20Logo.webp" />
     <meta property="og:site_name" content="Fusioncrafttech" />
     
     <!-- Twitter -->
@@ -27,7 +27,7 @@
     <meta property="twitter:url" content="https://fusioncrafttech.com/" />
     <meta property="twitter:title" content="Fusioncrafttech - Premium Full Stack Development Solutions" />
     <meta property="twitter:description" content="Modern scalable web applications for startups and businesses. Transform your ideas into powerful digital experiences." />
-    <meta property="twitter:image" content="https://fusioncrafttech.com/FCT%20Logo.png" />
+    <meta property="twitter:image" content="https://fusioncrafttech.com/FCT%20Logo.webp" />
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#667eea" />
@@ -39,12 +39,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="/FCT Logo.png" as="image" />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" />
+    <link rel="preload" href="/FCT Logo.webp" as="image" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" as="style" />
     
     <!-- DNS prefetch for performance -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    
+    <!-- Inline critical CSS for above-the-fold content -->
+    <style>
+      body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(135deg,#0f172a 0%,#1e293b 25%,#334155 50%,#1e293b 75%,#0f172a 100%);background-size:400% 400%;animation:gradient 15s ease infinite}#root{min-height:100vh}@keyframes gradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    </style>
   </head>
   <body>
     <div id="root"></div>

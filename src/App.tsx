@@ -1,16 +1,18 @@
-import { lazy, useState } from 'react';
+import { lazy, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import MainLayout from './layouts/MainLayout';
-import AdminLayout from './layouts/AdminLayout';
-import CRMLayout from './layouts/CRMLayout';
-import AuthLayout from './layouts/AuthLayout';
-import AuthGuard from './components/AuthGuard';
 import SplashScreen from './components/SplashScreen';
+import AuthGuard from './components/AuthGuard';
 import ScrollToTop from './components/ScrollToTop';
 
+// Lazy loaded layouts
+const MainLayout = lazy(() => import('./layouts/MainLayout'));
+const AdminLayout = lazy(() => import('./layouts/AdminLayout'));
+const CRMLayout = lazy(() => import('./layouts/CRMLayout'));
+const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
+
 // Portfolio Pages
-import HomePage from './modules/portfolio/pages/HomePage';
+const HomePage = lazy(() => import('./modules/portfolio/pages/HomePage'));
 const AboutPage = lazy(() => import('./modules/portfolio/pages/AboutPage'));
 const ServicesPage = lazy(() => import('./modules/portfolio/pages/ServicesPage'));
 const ProjectsPage = lazy(() => import('./modules/portfolio/pages/ProjectsPage'));
@@ -94,59 +96,59 @@ function App() {
           >
             <Routes>
             {/* Public Portfolio Routes */}
-            <Route path="/" element={<MainLayout><Outlet /></MainLayout>}>
-              <Route index element={<HomePage />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="services" element={<ServicesPage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="projects/:id" element={<ProjectDetailPage />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="review" element={<ReviewPage />} />
+            <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><MainLayout><Outlet /></MainLayout></Suspense>}>
+              <Route index element={<Suspense fallback={<div>Loading...</div>}><HomePage /></Suspense>} />
+              <Route path="about" element={<Suspense fallback={<div>Loading...</div>}><AboutPage /></Suspense>} />
+              <Route path="services" element={<Suspense fallback={<div>Loading...</div>}><ServicesPage /></Suspense>} />
+              <Route path="projects" element={<Suspense fallback={<div>Loading...</div>}><ProjectsPage /></Suspense>} />
+              <Route path="projects/:id" element={<Suspense fallback={<div>Loading...</div>}><ProjectDetailPage /></Suspense>} />
+              <Route path="contact" element={<Suspense fallback={<div>Loading...</div>}><ContactPage /></Suspense>} />
+              <Route path="review" element={<Suspense fallback={<div>Loading...</div>}><ReviewPage /></Suspense>} />
             </Route>
 
             {/* Authentication Routes */}
-            <Route path="/login" element={<AuthLayout title="Sign In" subtitle="Welcome back to Fusioncrafttech"><LoginPage /></AuthLayout>} />
-            <Route path="/register" element={<AuthLayout title="Create Account" subtitle="Join our team today"><RegisterPage /></AuthLayout>} />
-            <Route path="/forgot-password" element={<AuthLayout title="Reset Password" subtitle="Enter your email to reset your password"><ForgotPasswordPage /></AuthLayout>} />
+            <Route path="/login" element={<Suspense fallback={<div>Loading...</div>}><AuthLayout title="Sign In" subtitle="Welcome back to Fusioncrafttech"><LoginPage /></AuthLayout></Suspense>} />
+            <Route path="/register" element={<Suspense fallback={<div>Loading...</div>}><AuthLayout title="Create Account" subtitle="Join our team today"><RegisterPage /></AuthLayout></Suspense>} />
+            <Route path="/forgot-password" element={<Suspense fallback={<div>Loading...</div>}><AuthLayout title="Reset Password" subtitle="Enter your email to reset your password"><ForgotPasswordPage /></AuthLayout></Suspense>} />
 
             {/* Admin Routes */}
             <Route path="/admin" element={
               <AuthGuard requiredRole="admin">
-                <AdminLayout><Outlet /></AdminLayout>
+                <Suspense fallback={<div>Loading...</div>}><AdminLayout><Outlet /></AdminLayout></Suspense>
               </AuthGuard>
             }>
-              <Route index element={<AdminDashboard />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="services" element={<ServicesManager />} />
-              <Route path="projects" element={<ProjectsManager />} />
-              <Route path="messages" element={<MessagesManager />} />
-              <Route path="team-members" element={<TeamMembersManager />} />
-              <Route path="slideshow" element={<SlideshowManager />} />
-              <Route path="profile" element={<AdminProfile />} />
-              <Route path="create-quotation" element={<QuotationForm />} />
-              <Route path="create-invoice" element={<InvoiceForm />} />
-              <Route path="create-brochure" element={<BrochureForm />} />
-              <Route path="document-history" element={<DocumentHistory />} />
-              <Route path="settings" element={<AdminSettings />} />
+              <Route index element={<Suspense fallback={<div>Loading...</div>}><AdminDashboard /></Suspense>} />
+              <Route path="dashboard" element={<Suspense fallback={<div>Loading...</div>}><AdminDashboard /></Suspense>} />
+              <Route path="services" element={<Suspense fallback={<div>Loading...</div>}><ServicesManager /></Suspense>} />
+              <Route path="projects" element={<Suspense fallback={<div>Loading...</div>}><ProjectsManager /></Suspense>} />
+              <Route path="messages" element={<Suspense fallback={<div>Loading...</div>}><MessagesManager /></Suspense>} />
+              <Route path="team-members" element={<Suspense fallback={<div>Loading...</div>}><TeamMembersManager /></Suspense>} />
+              <Route path="slideshow" element={<Suspense fallback={<div>Loading...</div>}><SlideshowManager /></Suspense>} />
+              <Route path="profile" element={<Suspense fallback={<div>Loading...</div>}><AdminProfile /></Suspense>} />
+              <Route path="create-quotation" element={<Suspense fallback={<div>Loading...</div>}><QuotationForm /></Suspense>} />
+              <Route path="create-invoice" element={<Suspense fallback={<div>Loading...</div>}><InvoiceForm /></Suspense>} />
+              <Route path="create-brochure" element={<Suspense fallback={<div>Loading...</div>}><BrochureForm /></Suspense>} />
+              <Route path="document-history" element={<Suspense fallback={<div>Loading...</div>}><DocumentHistory /></Suspense>} />
+              <Route path="settings" element={<Suspense fallback={<div>Loading...</div>}><AdminSettings /></Suspense>} />
             </Route>
 
             {/* CRM Routes */}
             <Route path="/dashboard" element={
               <AuthGuard>
-                <CRMLayout><Outlet /></CRMLayout>
+                <Suspense fallback={<div>Loading...</div>}><CRMLayout><Outlet /></CRMLayout></Suspense>
               </AuthGuard>
             }>
-              <Route index element={<CRMDashboard />} />
-              <Route path="projects" element={<ProjectsTracker />} />
-              <Route path="tasks" element={<TasksManager />} />
-              <Route path="messages" element={<InternalMessages />} />
+              <Route index element={<Suspense fallback={<div>Loading...</div>}><CRMDashboard /></Suspense>} />
+              <Route path="projects" element={<Suspense fallback={<div>Loading...</div>}><ProjectsTracker /></Suspense>} />
+              <Route path="tasks" element={<Suspense fallback={<div>Loading...</div>}><TasksManager /></Suspense>} />
+              <Route path="messages" element={<Suspense fallback={<div>Loading...</div>}><InternalMessages /></Suspense>} />
               <Route path="clients" element={<div className="p-8"><h1 className="text-3xl font-bold">CRM Clients</h1></div>} />
-              <Route path="team" element={<TeamMembersManager />} />
+              <Route path="team" element={<Suspense fallback={<div>Loading...</div>}><TeamMembersManager /></Suspense>} />
             </Route>
 
             {/* Toolkit Routes */}
-            <Route path="/toolkit" element={<AdminLayout><Outlet /></AdminLayout>}>
-              <Route index element={<ToolkitDashboard />} />
+            <Route path="/toolkit" element={<Suspense fallback={<div>Loading...</div>}><AdminLayout><Outlet /></AdminLayout></Suspense>}>
+              <Route index element={<Suspense fallback={<div>Loading...</div>}><ToolkitDashboard /></Suspense>} />
               <Route path="auth" element={<div className="p-8"><h1 className="text-3xl font-bold">Toolkit Auth</h1></div>} />
               <Route path="dashboard" element={<div className="p-8"><h1 className="text-3xl font-bold">Toolkit Dashboard Layouts</h1></div>} />
               <Route path="contact" element={<div className="p-8"><h1 className="text-3xl font-bold">Toolkit Contact Forms</h1></div>} />

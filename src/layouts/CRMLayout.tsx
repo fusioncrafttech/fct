@@ -118,9 +118,10 @@ const CRMLayout: React.FC<CRMLayoutProps> = ({ children }) => {
               <div className="flex h-14 sm:h-16 items-center justify-between px-4 sm:px-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center space-x-2">
                   <img 
-                    src="/FCT Logo.png" 
+                    src="/FCT Logo.webp" 
                     alt="Fusioncrafttech Logo" 
                     className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg"
+                    loading="eager"
                   />
                   <span className="text-lg sm:text-xl font-bold gradient-text hidden sm:block">CRM</span>
                   <span className="text-lg font-bold gradient-text sm:hidden">C</span>
@@ -194,9 +195,10 @@ const CRMLayout: React.FC<CRMLayoutProps> = ({ children }) => {
           <div className="flex h-16 items-center justify-between px-4 xl:px-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-2">
               <img 
-                src="/FCT Logo.png" 
+                src="/FCT Logo.webp" 
                 alt="Fusioncrafttech Logo" 
                 className="w-8 h-8 rounded-lg"
+                loading="eager"
               />
               <span className="text-lg xl:text-xl font-bold gradient-text">CRM</span>
             </div>

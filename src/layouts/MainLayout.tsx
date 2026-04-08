@@ -45,9 +45,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               <div className="relative">
                 <div className="absolute inset-0 premium-gradient rounded-xl opacity-20 blur-lg group-hover:opacity-30 transition-opacity"></div>
               <img 
-                src="/FCT Logo.png" 
+                src="/FCT Logo.webp" 
                 alt="Fusioncrafttech Logo" 
                 className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-xl group-hover:scale-110 transition-transform"
+                loading="eager"
               />
               </div>
               <span className="text-lg sm:text-xl md:text-2xl font-bold text-white group-hover:text-gray-200 transition-colors hidden sm:block">Fusioncrafttech</span>
@@ -157,9 +158,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 <div className="relative">
                   <div className="absolute inset-0 premium-gradient rounded-xl opacity-20 blur-lg"></div>
                   <img 
-                    src="/FCT Logo.png" 
+                    src="/FCT Logo.webp" 
                     alt="Fusioncrafttech Logo" 
                     className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-xl"
+                    loading="eager"
                   />
                 </div>
                 <span className="text-lg sm:text-xl md:text-2xl font-bold text-white hidden sm:block">Fusioncrafttech</span>

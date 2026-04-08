@@ -190,9 +190,10 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
           {/* Logo image */}
           <div className="relative z-10 w-full h-full rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
             <img 
-              src="/FCT Logo.png" 
+              src="/FCT Logo.webp" 
               alt="Fusioncrafttech Logo" 
               className="w-3/4 h-3/4 object-contain drop-shadow-2xl"
+              loading="lazy"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';

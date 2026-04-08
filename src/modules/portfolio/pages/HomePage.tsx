@@ -376,8 +376,9 @@ const HomePage: React.FC = () => {
                   <Link
                     to="/services"
                     className="inline-flex items-center text-blue-600 font-semibold group-hover:text-blue-700 transition-colors text-sm sm:text-base"
+                    aria-label="Learn more about our services"
                   >
-                    Learn more
+                    Learn more about our services
                     <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -625,8 +626,9 @@ const HomePage: React.FC = () => {
               <Link
                 to="/about"
                 className="border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all hover:scale-105 inline-flex items-center justify-center text-base sm:text-lg"
+                aria-label="Learn more about our company"
               >
-                Learn More
+                Learn More About Us
               </Link>
             </div>
           </motion.div>

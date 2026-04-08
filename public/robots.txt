@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fusioncrafttech.com/sitemap.xml
