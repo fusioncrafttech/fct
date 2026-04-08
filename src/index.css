@@ -72,12 +72,16 @@
     -webkit-background-clip: text;
     color: transparent;
     animation: gradient 8s ease infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
   
   .premium-gradient {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #667eea 100%);
     background-size: 300% 300%;
     animation: gradient 8s ease infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
   
   .btn-primary {
@@ -173,5 +177,7 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 }

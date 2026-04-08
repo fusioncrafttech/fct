@@ -33,21 +33,37 @@ export default defineConfig({
           process: 'process',
         },
         manualChunks: (id) => {
-          // Split vendor chunks for better caching
+          // Core React libraries
           if (id.includes('react') || id.includes('react-dom')) {
-            return 'vendor';
+            return 'react-vendor';
           }
+          // Router and navigation
           if (id.includes('react-router-dom')) {
             return 'router';
           }
-          if (id.includes('@headlessui/react') || id.includes('@heroicons/react') || id.includes('framer-motion')) {
-            return 'ui';
+          // UI libraries and animations
+          if (id.includes('@headlessui/react') || id.includes('@heroicons/react') || id.includes('framer-motion') || id.includes('lucide-react')) {
+            return 'ui-vendor';
           }
+          // Supabase and auth
           if (id.includes('@supabase/supabase-js')) {
             return 'supabase';
           }
+          // Utility libraries
           if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
             return 'utils';
+          }
+          // Form and interaction libraries
+          if (id.includes('@dnd-kit/core') || id.includes('@dnd-kit/sortable') || id.includes('@dnd-kit/utilities')) {
+            return 'forms';
+          }
+          // PDF generation
+          if (id.includes('@react-pdf/renderer')) {
+            return 'pdf';
+          }
+          // Email and communication
+          if (id.includes('@emailjs/browser')) {
+            return 'communication';
           }
         },
       },
