@@ -12,10 +12,6 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Content-Encoding",
-          "value": "gzip, br"
         }
       ]
     },
@@ -25,13 +21,8 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Content-Encoding",
-          "value": "gzip, br"
         }
       ]
     }
-  ],
-  "compress": true
+  ]
 }
