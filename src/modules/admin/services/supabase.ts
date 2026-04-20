@@ -4,8 +4,8 @@ import type { Service, Project, ContactMessage, Testimonial, DashboardStats, Sli
 // Services CRUD
 export const servicesService = {
   async getAll(): Promise<Service[]> {
-    const { data, error } = await supabase
-      .from('services')
+    const { data, error } = await (await supabase
+      .from('services'))
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -14,8 +14,8 @@ export const servicesService = {
   },
 
   async create(service: Omit<Service, 'id' | 'created_at' | 'updated_at'>): Promise<Service> {
-    const { data, error } = await supabase
-      .from('services')
+    const { data, error } = await (await supabase
+      .from('services'))
       .insert(service)
       .select()
       .single();
@@ -25,8 +25,8 @@ export const servicesService = {
   },
 
   async update(id: string, service: Partial<Service>): Promise<Service> {
-    const { data, error } = await supabase
-      .from('services')
+    const { data, error } = await (await supabase
+      .from('services'))
       .update({ ...service, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -37,8 +37,8 @@ export const servicesService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('services')
+    const { error } = await (await supabase
+      .from('services'))
       .delete()
       .eq('id', id);
     
@@ -53,8 +53,8 @@ export const servicesService = {
 // Projects CRUD
 export const projectsService = {
   async getAll(): Promise<Project[]> {
-    const { data, error } = await supabase
-      .from('projects')
+    const { data, error } = await (await supabase
+      .from('projects'))
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -63,8 +63,8 @@ export const projectsService = {
   },
 
   async create(project: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {
-    const { data, error } = await supabase
-      .from('projects')
+    const { data, error } = await (await supabase
+      .from('projects'))
       .insert(project)
       .select()
       .single();
@@ -74,8 +74,8 @@ export const projectsService = {
   },
 
   async update(id: string, project: Partial<Project>): Promise<Project> {
-    const { data, error } = await supabase
-      .from('projects')
+    const { data, error } = await (await supabase
+      .from('projects'))
       .update({ ...project, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -86,8 +86,8 @@ export const projectsService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('projects')
+    const { error } = await (await supabase
+      .from('projects'))
       .delete()
       .eq('id', id);
     
@@ -102,8 +102,8 @@ export const projectsService = {
 // Messages CRUD
 export const messagesService = {
   async getAll(): Promise<ContactMessage[]> {
-    const { data, error } = await supabase
-      .from('contacts')
+    const { data, error } = await (await supabase
+      .from('contacts'))
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -112,8 +112,8 @@ export const messagesService = {
   },
 
   async updateStatus(id: string, status: ContactMessage['status']): Promise<ContactMessage> {
-    const { data, error } = await supabase
-      .from('contacts')
+    const { data, error } = await (await supabase
+      .from('contacts'))
       .update({ status, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -124,8 +124,8 @@ export const messagesService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('contacts')
+    const { error } = await (await supabase
+      .from('contacts'))
       .delete()
       .eq('id', id);
     
@@ -133,8 +133,8 @@ export const messagesService = {
   },
 
   async getUnreadCount(): Promise<number> {
-    const { count, error } = await supabase
-      .from('contacts')
+    const { count, error } = await (await supabase
+      .from('contacts'))
       .select('*', { count: 'exact', head: true })
       .eq('status', 'new');
     
@@ -146,8 +146,8 @@ export const messagesService = {
 // Testimonials CRUD
 export const testimonialsService = {
   async getAll(): Promise<Testimonial[]> {
-    const { data, error } = await supabase
-      .from('testimonials')
+    const { data, error } = await (await supabase
+      .from('testimonials'))
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -156,8 +156,8 @@ export const testimonialsService = {
   },
 
   async create(testimonial: Omit<Testimonial, 'id' | 'created_at' | 'updated_at'>): Promise<Testimonial> {
-    const { data, error } = await supabase
-      .from('testimonials')
+    const { data, error } = await (await supabase
+      .from('testimonials'))
       .insert(testimonial)
       .select()
       .single();
@@ -167,8 +167,8 @@ export const testimonialsService = {
   },
 
   async update(id: string, testimonial: Partial<Testimonial>): Promise<Testimonial> {
-    const { data, error } = await supabase
-      .from('testimonials')
+    const { data, error } = await (await supabase
+      .from('testimonials'))
       .update({ ...testimonial, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -179,8 +179,8 @@ export const testimonialsService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('testimonials')
+    const { error } = await (await supabase
+      .from('testimonials'))
       .delete()
       .eq('id', id);
     
@@ -191,8 +191,8 @@ export const testimonialsService = {
 // Slideshow CRUD
 export const slideshowService = {
   async getAll(): Promise<Slideshow[]> {
-    const { data, error } = await supabase
-      .from('slideshow')
+    const { data, error } = await (await supabase
+      .from('slideshow'))
       .select('*')
       .eq('is_active', true)
       .order('sort_order', { ascending: true });
@@ -202,8 +202,8 @@ export const slideshowService = {
   },
 
   async create(slideshow: Omit<Slideshow, 'id' | 'created_at' | 'updated_at'>): Promise<Slideshow> {
-    const { data, error } = await supabase
-      .from('slideshow')
+    const { data, error } = await (await supabase
+      .from('slideshow'))
       .insert(slideshow)
       .select()
       .single();
@@ -213,8 +213,8 @@ export const slideshowService = {
   },
 
   async update(id: string, slideshow: Partial<Slideshow>): Promise<Slideshow> {
-    const { data, error } = await supabase
-      .from('slideshow')
+    const { data, error } = await (await supabase
+      .from('slideshow'))
       .update({ ...slideshow, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -225,8 +225,8 @@ export const slideshowService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('slideshow')
+    const { error } = await (await supabase
+      .from('slideshow'))
       .delete()
       .eq('id', id);
     
@@ -242,9 +242,9 @@ export const slideshowService = {
 export const dashboardService = {
   async getStats(): Promise<DashboardStats> {
     const [servicesCount, projectsCount, messagesCount] = await Promise.all([
-      supabase.from('services').select('*', { count: 'exact', head: true }),
-      supabase.from('projects').select('*', { count: 'exact', head: true }),
-      supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('status', 'new')
+      (await supabase.from('services')).select('*', { count: 'exact', head: true }),
+      (await supabase.from('projects')).select('*', { count: 'exact', head: true }),
+      (await supabase.from('contacts')).select('*', { count: 'exact', head: true }).eq('status', 'new')
     ]);
 
     return {

@@ -4,8 +4,8 @@ import type { ToolkitItem, ToolkitStats } from '@/types/global';
 // Toolkit Items CRUD
 export const toolkitService = {
   async getAll(): Promise<ToolkitItem[]> {
-    const { data, error } = await supabase
-      .from('toolkit_items')
+    const { data, error } = await (await supabase
+      .from('toolkit_items'))
       .select('*')
       .order('created_at', { ascending: false });
     
@@ -14,8 +14,8 @@ export const toolkitService = {
   },
 
   async getByCategory(category: string): Promise<ToolkitItem[]> {
-    const { data, error } = await supabase
-      .from('toolkit_items')
+    const { data, error } = await (await supabase
+      .from('toolkit_items'))
       .select('*')
       .eq('category', category)
       .order('created_at', { ascending: false });
@@ -25,8 +25,8 @@ export const toolkitService = {
   },
 
   async create(item: Omit<ToolkitItem, 'id' | 'created_at' | 'updated_at'>): Promise<ToolkitItem> {
-    const { data, error } = await supabase
-      .from('toolkit_items')
+    const { data, error } = await (await supabase
+      .from('toolkit_items'))
       .insert(item)
       .select()
       .single();
@@ -36,8 +36,8 @@ export const toolkitService = {
   },
 
   async update(id: string, item: Partial<ToolkitItem>): Promise<ToolkitItem> {
-    const { data, error } = await supabase
-      .from('toolkit_items')
+    const { data, error } = await (await supabase
+      .from('toolkit_items'))
       .update({ ...item, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
@@ -48,8 +48,8 @@ export const toolkitService = {
   },
 
   async delete(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('toolkit_items')
+    const { error } = await (await supabase
+      .from('toolkit_items'))
       .delete()
       .eq('id', id);
     
@@ -58,8 +58,8 @@ export const toolkitService = {
 
   async getStats(): Promise<ToolkitStats> {
     const [allItems, categoriesData] = await Promise.all([
-      supabase.from('toolkit_items').select('*'),
-      supabase.from('toolkit_items').select('category')
+      (await supabase.from('toolkit_items')).select('*'),
+      (await supabase.from('toolkit_items')).select('category')
     ]);
 
     const categories = categoriesData.data?.reduce((acc: Record<string, number>, item: { category: string }) => {

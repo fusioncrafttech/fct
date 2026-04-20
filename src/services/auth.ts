@@ -17,8 +17,8 @@ export interface AuthResult {
 // Get user profile from team_members table based on email
 export const getUserProfile = async (email: string): Promise<UserProfile | null> => {
   try {
-    const { data, error } = await supabase
-      .from('team_members')
+    const { data, error } = await (await supabase
+      .from('team_members'))
       .select('*')
       .eq('email', email)
       .eq('is_active', true)
@@ -95,8 +95,8 @@ export const signInWithRole = async (email: string, password: string) => {
 // Create new user profile for first-time users
 export const createNewUserProfile = async (email: string, name?: string): Promise<UserProfile | null> => {
   try {
-    const { data, error } = await supabase
-      .from('team_members')
+    const { data, error } = await (await supabase
+      .from('team_members'))
       .insert({
         name: name || email.split('@')[0],
         email: email,
