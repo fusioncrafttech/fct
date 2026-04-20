@@ -3,48 +3,16 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Singleton pattern - create only one instance
 let supabaseClient: any = null;
-let isInitializing = false;
 
 const createSupabaseClient = async () => {
-  if (supabaseClient) {
-    return supabaseClient;
-  }
-  
-  if (isInitializing) {
-    // Wait for initialization to complete
-    while (isInitializing) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    return supabaseClient;
-  }
-  
-  isInitializing = true;
-  
-  try {
-    if (!supabaseUrl || !supabaseAnonKey) {
-      console.error('Supabase environment variables are not set:', {
-        url: !!supabaseUrl,
-        key: !!supabaseAnonKey
-      });
-      throw new Error('Supabase environment variables are missing');
-    }
-    
+  if (!supabaseClient && supabaseUrl && supabaseAnonKey) {
     const { createClient } = await import('@supabase/supabase-js');
-    supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-      }
-    });
-    
-    console.log('Supabase client initialized successfully');
-    return supabaseClient;
-  } catch (error) {
-    console.error('Failed to initialize Supabase client:', error);
-    throw error;
-  } finally {
-    isInitializing = false;
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+    console.log('Supabase client initialized');
+  } else if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase environment variables are not set. Authentication features will be disabled.');
   }
+  return supabaseClient;
 };
 
 // Export a function to get the client dynamically
@@ -86,8 +54,7 @@ const supabaseProxy = {
   },
   from: async (table: string) => {
     const client = await getSupabaseClient();
-    if (!client) throw new Error('Supabase not initialized');
-    return client.from(table);
+    return client?.from(table);
   },
   get storage() {
     return {
